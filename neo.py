@@ -1,4 +1,6 @@
 from neo4j import GraphDatabase
+import numpy as np
+from pagerank import pagerank
 
 
 class HelloWorldExample:
@@ -24,9 +26,23 @@ class HelloWorldExample:
 
   def getPersons(self):
     with self.driver.session() as session:
-      persons = session.run("MATCH (n:Person) RETURN n.name AS name")
-      names = [record["name"] for record in persons]
-      return names
+      persons = session.run("MATCH (n:Person) RETURN n.name")
+      arr = np.array([])
+      for person in persons:
+        name = person.data()['n.name']
+        p = {
+          "name": name,
+          "ingoingMessages": self.getIngoingMessages(name)
+        }
+        arr = np.append(arr, p)
+      pagerank(arr)
+      return arr.tolist()
+
+  def getIngoingMessages(self, person):
+    with self.driver.session() as session:
+      messages = session.run("MATCH (a)-[r]->(b) WHERE b.name='" + person + "' RETURN a.name AS sender, r.sentiment AS sentiment")
+      return messages.data()
+
 
   def getAvgSentiment(self):
     with self.driver.session() as session:
