@@ -3,7 +3,7 @@ import numpy as np
 from pagerank import pagerank
 
 
-class HelloWorldExample:
+class Database:
 
   def __init__(self, uri, user, password):
     self.driver = GraphDatabase.driver(uri, auth=(user, password))
@@ -29,13 +29,38 @@ class HelloWorldExample:
       persons = session.run("MATCH (n:Person) RETURN n.name")
       arr = np.array([])
       for person in persons:
-        name = person.data()['n.name']
+        arr = np.append(arr, person.data()['n.name'])
+      return arr.tolist()
+
+  def getPersonsWithRank(self, type):
+    persons = self.getPersons()
+    messages = self.getMessages(type)
+    ranked = pagerank(persons, messages)
+    return ranked.tolist()
+
+  def getMessages(self, type):
+    with self.driver.session() as session:
+      query = "MATCH (a)-[r]->(b) RETURN a.name AS sender, r.sentiment AS sentiment, b.name as recipient"
+      if type == 'POSITIVE':
+        query = "MATCH (a)-[r]->(b) WHERE r.sentiment > 0 RETURN a.name AS sender, r.sentiment AS sentiment, b.name as recipient"
+
+      if type == 'NEGATIVE':
+        query = "MATCH (a)-[r]->(b) WHERE r.sentiment < 0 RETURN a.name AS sender, r.sentiment AS sentiment, b.name as recipient"
+
+      messages = session.run(query)
+      return messages.data()
+
+  def getPersonsWithMessages(self, type):
+    with self.driver.session() as session:
+      persons = self.getPersons()
+      arr = np.array([])
+      for person in persons:
         p = {
-          "name": name,
-          "ingoingMessages": self.getIngoingMessages(name)
+          "name": person,
+          "ingoingMessages": self.getIngoingMessages(person)
         }
         arr = np.append(arr, p)
-      pagerank(arr)
+      pagerank(arr, type)
       return arr.tolist()
 
   def getIngoingMessages(self, person):
@@ -61,8 +86,8 @@ class HelloWorldExample:
 
   @staticmethod
   def _seed(tx):
-    HelloWorldExample._clear(tx)
-    HelloWorldExample._seedPersons(tx)
+    Database._clear(tx)
+    Database._seedPersons(tx)
 
 
   @staticmethod
