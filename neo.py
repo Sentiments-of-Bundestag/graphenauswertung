@@ -40,12 +40,11 @@ class Database:
 
   def getMessages(self, type):
     with self.driver.session() as session:
-      query = "MATCH (a)-[r]->(b) RETURN a.name AS sender, r.sentiment AS sentiment, b.name as recipient"
+      query = "MATCH (a)-[s]->(m:Message)-[r]->(b) RETURN m.sentiment AS sentiment, a.name AS sender, b.name AS recipient"
       if type == 'POSITIVE':
-        query = "MATCH (a)-[r]->(b) WHERE r.sentiment > 0 RETURN a.name AS sender, r.sentiment AS sentiment, b.name as recipient"
-
+        query = "MATCH (a)-[s]->(m:Message)-[r]->(b) WHERE m.sentiment > 0 RETURN m.sentiment AS sentiment, a.name AS sender, b.name AS recipient"
       if type == 'NEGATIVE':
-        query = "MATCH (a)-[r]->(b) WHERE r.sentiment < 0 RETURN a.name AS sender, r.sentiment AS sentiment, b.name as recipient"
+        query = "MATCH (a)-[s]->(m:Message)-[r]->(b) WHERE m.sentiment < 0 RETURN m.sentiment AS sentiment, a.name AS sender, b.name AS recipient"
 
       messages = session.run(query)
       return messages.data()
@@ -60,27 +59,27 @@ class Database:
           "ingoingMessages": self.getIngoingMessages(person)
         }
         arr = np.append(arr, p)
-      pagerank(arr, type)
       return arr.tolist()
 
   def getIngoingMessages(self, person):
     with self.driver.session() as session:
-      messages = session.run("MATCH (a)-[r]->(b) WHERE b.name='" + person + "' RETURN a.name AS sender, r.sentiment AS sentiment")
+      messages = session.run("MATCH (a)-[s]->(m:Message)-[r]->(b) WHERE b.name='" + person + "' RETURN m.sentiment AS sentiment, a.name AS name")
       return messages.data()
 
 
   def getAvgSentiment(self):
     with self.driver.session() as session:
-      query = "MATCH p =()-[r]->(b) RETURN r.sentiment"
+      query = "MATCH (m:Message) RETURN m.sentiment"
       messages= session.run(query)
       avg = 0
       cnt = 0
       for message in messages:
-        sentiment = message.data()['r.sentiment']
+        sentiment = message.data()['m.sentiment']
         print(sentiment)
         avg = avg + sentiment
         cnt = cnt + 1
-      avg = avg / cnt
+      if (cnt > 0):
+        avg = avg / cnt
       return avg
 
 
@@ -92,18 +91,52 @@ class Database:
 
   @staticmethod
   def _seedPersons(tx):
+    persons = [
+      {
+        'name': 'Angela Merkel'
+      }
+    ]
     tx.run("""
     CREATE (merkel:Person{name:'Angela Merkel'}), (spahn:Person{name:'Jens Spahn'}), (weidel:Person{name:'Alice Weidel'}), (maas:Person{name:'Heiko Maas'})
-    CREATE (merkel)-[r1:Message{sentiment:0.8}]->(spahn)
-    CREATE (merkel)-[r2:Message{sentiment:0.5}]->(spahn)
-    CREATE (merkel)-[r3:Message{sentiment:0.9}]->(spahn)
-    CREATE (spahn)-[r4:Message{sentiment:-0.3}]->(weidel)
-    CREATE (weidel)-[r5:Message{sentiment:-0.9}]->(merkel)
-    CREATE (weidel)-[r6:Message{sentiment:-0.7}]->(spahn)
-    CREATE (maas)-[r7:Message{sentiment:0.2}]->(merkel)
-    CREATE (merkel)-[r8:Message{sentiment:0.5}]->(maas)
-    CREATE (weidel)-[r9:Message{sentiment:-0.2}]->(maas)
-    CREATE (spahn)-[r10:Message{sentiment:0.1}]->(maas)
+    CREATE (n1:Message{sentiment:0.8})
+    CREATE (merkel)-[s1:Sends]->(n1)
+    CREATE (n1)-[r1:Receives]->(spahn)
+    
+    CREATE (n2:Message{sentiment:0.5})
+    CREATE (merkel)-[s2:Sends]->(n2)
+    CREATE (n2)-[r2:Receives]->(spahn)
+      
+    CREATE (n3:Message{sentiment:0.9})
+    CREATE (merkel)-[s3:Sends]->(n3)
+    CREATE (n3)-[r3:Receives]->(spahn)
+    
+    CREATE (n4:Message{sentiment:-0.3})
+    CREATE (spahn)-[s4:Sends]->(n4)
+    CREATE (n4)-[r4:Receives]->(weidel)
+    
+    CREATE (n5:Message{sentiment:-0.9})
+    CREATE (weidel)-[s5:Sends]->(n5)
+    CREATE (n5)-[r5:Receives]->(merkel)
+    
+    CREATE (n6:Message{sentiment:-0.7})
+    CREATE (weidel)-[s6:Sends]->(n6)
+    CREATE (n6)-[r6:Receives]->(spahn)
+    
+    CREATE (n7:Message{sentiment:0.2})
+    CREATE (maas)-[s7:Sends]->(n7)
+    CREATE (n7)-[r7:Receives]->(merkel)
+    
+    CREATE (n8:Message{sentiment:0.5})
+    CREATE (merkel)-[s8:Sends]->(n8)
+    CREATE (n8)-[r8:Receives]->(maas)
+    
+    CREATE (n9:Message{sentiment:-0.2})
+    CREATE (weidel)-[s9:Sends]->(n9)
+    CREATE (n9)-[r9:Sends]->(maas)
+    
+    CREATE (n10:Message{sentiment:0.1})
+    CREATE (spahn)-[s10:Sends]->(n10)
+    CREATE (n10)-[r10:Receives]->(maas)
     """)
 
   @staticmethod
