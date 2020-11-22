@@ -21,7 +21,7 @@ services:
     ports:
       - 80:80
     environment:
-      - DATABASE_URL=bolt://database:7687
+      - DATABASE_URL=bolt://database:7678
       - DATABASE_USER=neo4j
       - DATABASE_PASSWORD=graphenauswertung
     links:
