@@ -11,6 +11,7 @@ sleep(10)
 
 db = setup_db()
 
+
 @app.route('/')
 def get_persons():
     return jsonify(db.getPersons())
@@ -29,3 +30,7 @@ def get_messages():
 @app.route('/sentiment')
 def get_avg_sentiment():
     return jsonify(db.getAvgSentiment())
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
