@@ -1,20 +1,12 @@
 from neo import Database
 from time import sleep
-from os import environ
+from os import getenv
 
 
 def setup_db():
-    database_url = environ['DATABASE_URL']
-    if database_url is None:
-        database_url = 'bolt://localhost:7687'
-
-    database_user = environ['DATABASE_USER']
-    if database_user is None:
-        database_user = 'neo4j'
-
-    database_password = environ['DATABASE_PASSWORD']
-    if database_password is None:
-        database_password = 'graphenauswertung'
+    database_url = getenv('DATABASE_URL', 'bolt://localhost:7687')
+    database_user = getenv('DATABASE_USER', 'neo4j')
+    database_password = getenv('DATABASE_PASSWORD', 'graphenauswertung')
 
     print(database_url)
     print(database_user)
