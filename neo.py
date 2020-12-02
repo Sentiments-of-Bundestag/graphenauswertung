@@ -1,6 +1,6 @@
 from neo4j import GraphDatabase
 import numpy as np
-from pagerank import pagerank
+from pagerank import pagerank, aggregate_messages
 
 
 class Database:
@@ -39,7 +39,7 @@ class Database:
     def getPersonsWithRank(self, type):
         persons = self.getPersons()
         messages = self.getMessages(type)
-        ranked = pagerank(persons, messages)
+        ranked = pagerank(persons, aggregate_messages(messages))
         return ranked.tolist()
 
     def getMessages(self, type):
@@ -79,7 +79,6 @@ class Database:
             cnt = 0
             for message in messages:
                 sentiment = message.data()['m.sentiment']
-                print(sentiment)
                 avg = avg + sentiment
                 cnt = cnt + 1
             if (cnt > 0):
