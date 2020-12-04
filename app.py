@@ -14,22 +14,22 @@ db = setup_db()
 
 @app.route('/')
 def get_persons():
-    return jsonify(db.getPersons())
+    return jsonify(db.get_persons())
 
 
 @app.route('/ranked')
 def get_persons_ranked():
-    return jsonify(db.getPersonsWithRank(request.args.get('filter')))
+    return jsonify(db.get_persons_with_rank(request.args.get('filter')))
 
 
 @app.route('/messages')
 def get_messages():
-    return jsonify(db.getMessages(request.args.get('filter')))
+    return jsonify(db.get_messages(request.args.get('filter')))
 
 
 @app.route('/sentiment')
 def get_avg_sentiment():
-    return jsonify(db.getAvgSentiment())
+    return jsonify(db.get_avg_sentiment())
 
 
 if __name__ == '__main__':

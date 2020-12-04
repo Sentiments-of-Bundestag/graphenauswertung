@@ -8,7 +8,7 @@ def aggregate_messages(messages):
         if len(existing_entries) > 0:
             entry = existing_entries[0]
             count = entry['count'] + 1
-            sentiment = (entry['sentiment'] * ((count - 1) / count)) + ((1 / count) * message['sentiment'])
+            sentiment = entry['sentiment'] + message['sentiment']
             entry['count'] = count
             entry['sentiment'] = sentiment
 
