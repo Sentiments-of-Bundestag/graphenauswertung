@@ -1,6 +1,17 @@
 from neo4j import GraphDatabase
 import numpy as np
-from pagerank import pagerank
+from pagerank import pagerank, aggregate_messages
+
+NODE_PERSON = 'Person'
+NODE_KOMMENTAR = 'Kommentar'
+NODE_SITZUNG = 'Sitzung'
+NODE_WAHLPERIODE = 'Wahlperiode'
+NODE_FRAKTION = 'Fraktion'
+REL_WAEHREND = 'WAHREND'
+REL_SEND = 'INTERAGIERT_DURCH'
+REL_RECEIVE = 'INTERAGIERT_MIT'
+REL_ERFOLGT = 'ERFOLGT_IN'
+REL_MITGLIED = 'MITGLIED_VON'
 
 
 class Database:
@@ -24,58 +35,46 @@ class Database:
         with self.driver.session() as session:
             session.write_transaction(self._seed)
 
-    def getPersons(self):
+    def get_persons(self):
         with self.driver.session() as session:
-            persons = session.run("MATCH (n:Person) RETURN n.name")
+            persons = session.run("MATCH (n:" + NODE_PERSON + ") RETURN n.vorname, n.nachname, n.rednerId")
             arr = np.array([])
             for person in persons:
-                arr = np.append(arr, person.data()['n.name'])
+                arr = np.append(arr, {
+                    'vorname': person.data()['n.vorname'],
+                    'nachname': person.data()['n.nachname'],
+                    "rednerId": person.data()['n.rednerId']
+                })
             return arr.tolist()
 
-    def getPersonsWithRank(self, type):
-        persons = self.getPersons()
-        messages = self.getMessages(type)
-        ranked = pagerank(persons, messages)
+    def get_persons_with_rank(self, type):
+        persons = self.get_persons()
+        messages = self.get_messages(type)
+        ranked = pagerank(persons, aggregate_messages(messages))
         return ranked.tolist()
 
-    def getMessages(self, type):
+    def get_messages(self, type):
         with self.driver.session() as session:
-            query = "MATCH (a)-[s]->(m:Message)-[r]->(b) RETURN m.sentiment AS sentiment, a.name AS sender, b.name AS recipient"
-            if type == 'POSITIVE':
-                query = "MATCH (a)-[s]->(m:Message)-[r]->(b) WHERE m.sentiment > 0 RETURN m.sentiment AS sentiment, a.name AS sender, b.name AS recipient"
-            if type == 'NEGATIVE':
-                query = "MATCH (a)-[s]->(m:Message)-[r]->(b) WHERE m.sentiment < 0 RETURN m.sentiment AS sentiment, a.name AS sender, b.name AS recipient"
+            where = ""
+            if type == "POSITIVE":
+                where = "WHERE m.sentiment > 0"
+            if type == "NEGATIVE":
+                where = "WHERE m.sentiment < 0"
+
+            query = "MATCH (a)-[s:" + REL_SEND + "]->(m:" + NODE_KOMMENTAR + ")-[r:" + REL_RECEIVE + "]->(b) " \
+                    + where + " RETURN m.sentiment AS sentiment, a.rednerId AS sender, b.rednerId AS recipient"
 
             messages = session.run(query)
             return messages.data()
 
-    def getPersonsWithMessages(self, type):
+    def get_avg_sentiment(self):
         with self.driver.session() as session:
-            persons = self.getPersons()
-            arr = np.array([])
-            for person in persons:
-                p = {
-                    "name": person,
-                    "ingoingMessages": self.getIngoingMessages(person)
-                }
-                arr = np.append(arr, p)
-            return arr.tolist()
-
-    def getIngoingMessages(self, person):
-        with self.driver.session() as session:
-            messages = session.run(
-                "MATCH (a)-[s]->(m:Message)-[r]->(b) WHERE b.name='" + person + "' RETURN m.sentiment AS sentiment, a.name AS name")
-            return messages.data()
-
-    def getAvgSentiment(self):
-        with self.driver.session() as session:
-            query = "MATCH (m:Message) RETURN m.sentiment"
+            query = "MATCH (m:" + NODE_KOMMENTAR + ") RETURN m.sentiment"
             messages = session.run(query)
             avg = 0
             cnt = 0
             for message in messages:
                 sentiment = message.data()['m.sentiment']
-                print(sentiment)
                 avg = avg + sentiment
                 cnt = cnt + 1
             if (cnt > 0):
@@ -89,85 +88,140 @@ class Database:
 
     @staticmethod
     def _seedPersons(tx):
+        fractions = [
+            {
+                'name': 'CDU/CSU',
+                'beschreibung': ''
+            },
+            {
+                'name': 'SPD',
+                'beschreibung': ''
+            },
+            {
+                'name': 'AFD',
+                'beschreibung': ''
+            }
+        ]
         persons = [
             {
-                'name': 'Angela Merkel',
-                'id': 'merkel'
+                'rednerId': 'p1',
+                'vorname': 'Angela',
+                'nachname': 'Merkel',
+                'nameszusatz': '',
+                'titel': '',
+                'bdland': ''
             },
             {
-                'name': 'Jens Spahn',
-                'id': 'spahn'
+                'rednerId': 'p2',
+                'vorname': 'Jens',
+                'nachname': 'Spahn',
+                'nameszusatz': '',
+                'titel': '',
+                'bdland': ''
             },
             {
-                'name': 'Heiko Maas',
-                'id': 'maas'
+                'rednerId': 'p3',
+                'vorname': 'Heiko',
+                'nachname': 'Maas',
+                'nameszusatz': '',
+                'titel': '',
+                'bdland': ''
             },
             {
-                'name': 'Alice Weidel',
-                'id': 'weidel'
+                'rednerId': 'p4',
+                'vorname': 'Weidel',
+                'nachname': 'Alice',
+                'nameszusatz': '',
+                'titel': '',
+                'bdland': ''
             }
         ]
         messages = [
             {
-                'from': 'merkel',
-                'to': 'spahn',
+                'from': 'p1',
+                'to': 'p2',
                 'sentiment': 0.8
             },
             {
-                'from': 'merkel',
-                'to': 'spahn',
+                'from': 'p1',
+                'to': 'p2',
                 'sentiment': 0.5
             },
             {
-                'from': 'merkel',
-                'to': 'spahn',
+                'from': 'p1',
+                'to': 'p2',
                 'sentiment': 0.9
             },
             {
-                'from': 'spahn',
-                'to': 'weidel',
+                'from': 'p2',
+                'to': 'p4',
                 'sentiment': -0.3
             },
             {
-                'from': 'weidel',
-                'to': 'merkel',
+                'from': 'p4',
+                'to': 'p1',
                 'sentiment': -0.9
             },
             {
-                'from': 'weidel',
-                'to': 'spahn',
+                'from': 'p4',
+                'to': 'p2',
                 'sentiment': -0.7
             },
             {
-                'from': 'maas',
-                'to': 'merkel',
+                'from': 'p3',
+                'to': 'p1',
                 'sentiment': 0.2
             },
             {
-                'from': 'merkel',
-                'to': 'maas',
+                'from': 'p1',
+                'to': 'p3',
                 'sentiment': 0.5
             },
             {
-                'from': 'weidel',
-                'to': 'maas',
+                'from': 'p4',
+                'to': 'p3',
                 'sentiment': -0.2
             },
             {
-                'from': 'spahn',
-                'to': 'maas',
+                'from': 'p2',
+                'to': 'p3',
                 'sentiment': 0.1
             }
         ]
         query = ""
+
+        query = query + "CREATE (w1:" + NODE_WAHLPERIODE + "{number:19,startDate: date('2019-06-01'),endDate: date('2020-12-31')})\n"
+
+        query = query + "CREATE (si1:Sitzung{startDateTime: datetime('2019-06-01T18:40:32.142+0100'), endDateTime: datetime('2019-06-01T20:40:32.142+0100')})\n"
+        query = query + "CREATE (si1)-[wa1:" + REL_WAEHREND + "]->(w1)\n"
+
+        query = query + "CREATE (si2:Sitzung{startDateTime: datetime('2019-05-01T18:40:32.142+0100'), endDateTime: datetime('2019-05-01T20:40:32.142+0100')})\n"
+        query = query + "CREATE (si2)-[wa2:" + REL_WAEHREND + "]->(w1)\n"
+
+        fcnt = 0
+        for fraction in fractions:
+            query = query + "CREATE (f" + str(fcnt) + ":" + NODE_FRAKTION + "{name:'" + fraction[
+                'name'] + "',beschreibung:'" + \
+                    fraction['beschreibung'] + "'})\n"
+            fcnt = fcnt + 1
+
         for person in persons:
-            query = query + "CREATE (" + person['id']+":Person{name:'" + person['name'] + "'}) \n"
+            query = query + "CREATE (" + person['rednerId'] + ":" + NODE_PERSON + "{vorname:'" + person[
+                'vorname'] + "', nachname: '" + person['nachname'] + "', rednerId:'" + person['rednerId'] + "'}) \n"
+
+        query = query + "CREATE(p1)-[fr1:" + REL_MITGLIED + "]->(f0)\n"
+        query = query + "CREATE(p2)-[fr2:" + REL_MITGLIED + "]->(f0)\n"
+        query = query + "CREATE(p3)-[fr3:" + REL_MITGLIED + "]->(f1)\n"
+        query = query + "CREATE(p4)-[fr4:" + REL_MITGLIED + "]->(f2)\n"
 
         cnt = 0
         for message in messages:
-            query = query + "CREATE(m" + str(cnt) + ": Message{sentiment: " + str(message['sentiment']) + "}) \n"
-            query = query + "CREATE(" + message['from'] + ") - [s" + str(cnt) + ": Sends] -> (m" + str(cnt) + ") \n "
-            query = query + "CREATE(m" + str(cnt) + ") - [r" + str(cnt) + ": Receives] -> (" + message['to'] + ") \n"
+            _cnt = str(cnt)
+            query = query + "CREATE(m" + _cnt + ": " + NODE_KOMMENTAR + "{sentiment: " + str(
+                message['sentiment']) + ",beschreibung:'',art:'kommentar',date: date('2020-11-28')}) \n"
+            query = query + "CREATE(" + message['from'] + ") - [s" + _cnt + ": " + REL_SEND + "] -> (m" + _cnt + ") \n "
+            query = query + "CREATE(m" + _cnt + ") - [r" + _cnt + ": " + REL_RECEIVE + "] -> (" + message['to'] + ") \n"
+            query = query + "CREATE(m" + _cnt + ") - [e" + _cnt + ":" + REL_ERFOLGT + "] -> (si1) \n"
             cnt = cnt + 1
 
         tx.run(query)
@@ -175,10 +229,3 @@ class Database:
     @staticmethod
     def _clear(tx):
         return tx.run("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
-
-    @staticmethod
-    def _create_and_return_greeting(tx, message):
-        result = tx.run("CREATE (a:Greeting) "
-                        "SET a.message = $message "
-                        "RETURN a.message + ', from node ' + id(a)", message=message)
-        return result.single()[0]
