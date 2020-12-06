@@ -19,7 +19,7 @@ App runs on http://localhost:5000.
 
 Docker
 
-### Start the DB
+### Start the Mock DB
 
 docker-compose up
 
@@ -33,3 +33,36 @@ password: graphenauswertung
 ### Empty the database
 
 ```MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r```
+
+## Endpoints
+
+Method: `GET` for all
+
+### `/fractions`
+
+returns all fractions from group5 database
+
+### `/fractions/graph`
+
+returns the fraction graph based on the group5 database
+
+### `/persons`
+
+returns all persons from group4 database
+
+### `/mock/persons`
+
+returns the mock persons from the internal mock database 
+
+### `/mock/ranked`
+
+returns the ranked persons from the internal mock database
+
+### `/mock/messages`
+
+returns the messages from the internal mock database
+
+### `/mock/sentiment`
+
+return the average sentiment over the messages from the internal mock database
+

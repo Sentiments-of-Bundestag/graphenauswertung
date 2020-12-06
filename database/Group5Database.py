@@ -16,7 +16,6 @@ class Group5Database:
             fractions = session.run("MATCH (n:{}) RETURN n".format(NODE_FRACTION))
             arr = []
             for fraction in fractions:
-                print(fraction.data()['n'])
                 arr.append({
                     'name': fraction.data()['n']['name'],
                     'size': fraction.data()['n']['size']
