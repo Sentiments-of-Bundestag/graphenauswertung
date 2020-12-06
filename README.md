@@ -38,17 +38,29 @@ password: graphenauswertung
 
 Method: `GET` for all
 
-### `/fractions`
+### `/factions`
 
-returns all fractions from group5 database
+returns all factions from group5 database
 
-### `/fractions/graph`
+### `/factions/graph`
 
-returns the fraction graph based on the group5 database
+returns the faction graph based on the group5 database
 
 ### `/persons`
 
 returns all persons from group4 database
+
+### `persons/messages`
+
+returns all messages from group4 database
+
+### `persons/graph`
+
+returns the person graph based on the group4 database
+
+### `persons/ranked`
+
+returns the page-ranked persons from group4 database
 
 ### `/mock/persons`
 

@@ -11,7 +11,7 @@ class Group5Database:
     def close(self):
         self.driver.close()
 
-    def get_fractions(self):
+    def get_factions(self):
         with self.driver.session() as session:
             fractions = session.run("MATCH (n:{}) RETURN n".format(NODE_FRACTION))
             arr = []

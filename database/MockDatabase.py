@@ -84,7 +84,7 @@ class MockDatabase:
 
     @staticmethod
     def _seedPersons(tx):
-        fractions = [
+        factions = [
             {
                 'name': 'CDU/CSU',
                 'beschreibung': ''
@@ -195,7 +195,7 @@ class MockDatabase:
         query = query + "CREATE (si2)-[wa2:" + REL_WAEHREND + "]->(w1)\n"
 
         fcnt = 0
-        for fraction in fractions:
+        for fraction in factions:
             query = query + "CREATE (f" + str(fcnt) + ":" + NODE_FRAKTION + "{name:'" + fraction[
                 'name'] + "',beschreibung:'" + \
                     fraction['beschreibung'] + "'})\n"

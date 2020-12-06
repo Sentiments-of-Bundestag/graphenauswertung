@@ -27,15 +27,27 @@ group5_db = setup_group5_db()
 def get_persons():
     return json.dumps(group4_db.get_persons(), ensure_ascii=False)
 
+@app.route('/persons/messages')
+def get_messages():
+    return json.dumps(group4_db.get_messages(), ensure_ascii=False)
+
+@app.route('/persons/graph')
+def get_persons_graph():
+    return json.dumps(group4_db.get_graph(), ensure_ascii=False)
+
+@app.route('/persons/ranked')
+def get_persons_ranked():
+    return json.dumps(group4_db.get_persons_ranked(), ensure_ascii=False)
+
 
 # GROUP 5 endpoints
-@app.route('/fractions')
-def get_fractions():
-    return json.dumps(group5_db.get_fractions(), ensure_ascii=False)
+@app.route('/factions')
+def get_factions():
+    return json.dumps(group5_db.get_factions(), ensure_ascii=False)
 
 
-@app.route('/fractions/graph')
-def get_fraction_graph():
+@app.route('/factions/graph')
+def get_faction_graph():
     return json.dumps(group5_db.get_graph(), ensure_ascii=False)
 
 
