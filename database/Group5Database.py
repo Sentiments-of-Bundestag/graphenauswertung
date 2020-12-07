@@ -1,57 +1,52 @@
-from neo4j import GraphDatabase
 from os import getenv
 
-NODE_FRACTION = 'Faction'
+from database.Database import Database
+
+NODE_FACTION = 'Faction'
+REL_COMMENTED = 'COMMENTED'
 
 
-class Group5Database:
-    def __init__(self, uri, user, password):
-        self.driver = GraphDatabase.driver(uri, auth=(user, password))
-
-    def close(self):
-        self.driver.close()
+class Group5Database(Database):
 
     def get_factions(self):
         with self.driver.session() as session:
-            fractions = session.run("MATCH (n:{}) RETURN n".format(NODE_FRACTION))
+            factions = session.run("MATCH (n:{}) RETURN n".format(NODE_FACTION))
             arr = []
-            for fraction in fractions:
+            for faction in factions:
                 arr.append({
-                    'name': fraction.data()['n']['name'],
-                    'size': fraction.data()['n']['size']
+                    'name': faction.data()['n']['name'],
+                    'size': faction.data()['n']['size']
                 })
             return arr
 
     def get_sentiment(self, f1, f2):
         with self.driver.session() as session:
-            query = 'MATCH p=(sender:Faction {{name:"{0}"}})-[r:COMMENTED ]->(receiver:Faction {{name:"{1}"}}) ' \
+            query = 'MATCH p=(sender:{0} {{name:"{2}"}})-[r:{1} ]->(receiver:{0} {{name:"{3}"}}) ' \
                     'with sum(r.weight) as weightsum, collect(r.polarity) as sentimentlist, ' \
                     'collect(r.weight) as weightlist unwind weightlist as weights unwind sentimentlist as sentiments ' \
-                    'RETURN sum((weights/weightsum)*sentiments) as sentiment'.format(f1, f2)
+                    'RETURN sum((weights/weightsum)*sentiments) as sentiment'.format(NODE_FACTION, REL_COMMENTED, f1, f2)
             sentiment = session.run(query)
             return sentiment.data()[0]['sentiment']
 
     def get_graph(self):
-        with self.driver.session() as session:
-            fractions = self.get_fractions()
-            messages = []
-            for fraction in fractions:
-                for other in fractions:
-                    fraction_name = fraction['name']
-                    other_name = other['name']
-                    if fraction_name is not other_name:
-                        sentiment = self.get_sentiment(fraction_name, other_name)
-                        messages.append({
-                            'from': fraction_name,
-                            'to': other_name,
-                            'sentiment': sentiment
-                        })
+        factions = self.get_factions()
+        messages = []
+        for faction in factions:
+            for other in factions:
+                faction_name = faction['name']
+                other_name = other['name']
+                if faction_name is not other_name:
+                    sentiment = self.get_sentiment(faction_name, other_name)
+                    messages.append({
+                        'from': faction_name,
+                        'to': other_name,
+                        'sentiment': sentiment
+                    })
 
-            return {
-                'fractions': fractions,
-                'messages': messages
-            }
-
+        return {
+            'factions': factions,
+            'messages': messages
+        }
 
 
 def setup_group5_db():

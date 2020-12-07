@@ -1,6 +1,6 @@
-from neo4j import GraphDatabase
 import numpy as np
 from pagerank import calculate_pagerank_eigenvector, aggregate_messages
+from database.Database import Database
 from os import getenv
 
 NODE_PERSON = 'Person'
@@ -15,14 +15,7 @@ REL_ERFOLGT = 'ERFOLGT_IN'
 REL_MITGLIED = 'MITGLIED_VON'
 
 
-class MockDatabase:
-
-    def __init__(self, uri, user, password):
-        self.driver = GraphDatabase.driver(uri, auth=(user, password))
-
-    def close(self):
-        self.driver.close()
-
+class MockDatabase(Database):
     def clear(self):
         with self.driver.session() as session:
             session.write_transaction(self._clear)
