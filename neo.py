@@ -1,6 +1,6 @@
 from neo4j import GraphDatabase
 import numpy as np
-from pagerank import pagerank, aggregate_messages
+from pagerank import calculate_pagerank_eigenvector, aggregate_messages
 
 NODE_PERSON = 'Person'
 NODE_KOMMENTAR = 'Kommentar'
@@ -50,8 +50,8 @@ class Database:
     def get_persons_with_rank(self, type):
         persons = self.get_persons()
         messages = self.get_messages(type)
-        ranked = pagerank(persons, aggregate_messages(messages))
-        return ranked.tolist()
+        ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages))
+        return ranked
 
     def get_messages(self, type):
         with self.driver.session() as session:
