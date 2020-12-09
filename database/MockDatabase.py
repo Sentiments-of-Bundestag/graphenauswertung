@@ -4,15 +4,15 @@ from database.Database import Database
 from os import getenv
 
 NODE_PERSON = 'Person'
-NODE_KOMMENTAR = 'Kommentar'
-NODE_SITZUNG = 'Sitzung'
+NODE_KOMMENTAR = 'Commentary'
+NODE_SITZUNG = 'ParliamentSession'
 NODE_WAHLPERIODE = 'Wahlperiode'
-NODE_FRAKTION = 'Fraktion'
+NODE_FACTION = 'Faction'
 REL_WAEHREND = 'WAHREND'
-REL_SEND = 'INTERAGIERT_DURCH'
-REL_RECEIVE = 'INTERAGIERT_MIT'
-REL_ERFOLGT = 'ERFOLGT_IN'
-REL_MITGLIED = 'MITGLIED_VON'
+REL_SEND = 'SENDER'
+REL_RECEIVE = 'RECEIVER'
+REL_ERFOLGT = 'SESSION'
+REL_MITGLIED = 'MEMBER'
 
 
 class MockDatabase(Database):
@@ -26,13 +26,13 @@ class MockDatabase(Database):
 
     def get_persons(self):
         with self.driver.session() as session:
-            persons = session.run("MATCH (n:" + NODE_PERSON + ") RETURN n.vorname, n.nachname, n.rednerId")
+            persons = session.run("MATCH (n:" + NODE_PERSON + ") RETURN n.name, n.speakerId, n.role")
             arr = np.array([])
             for person in persons:
                 arr = np.append(arr, {
-                    'vorname': person.data()['n.vorname'],
-                    'nachname': person.data()['n.nachname'],
-                    "rednerId": person.data()['n.rednerId']
+                    'name': person.data()['n.name'],
+                    'speakerId': person.data()['n.speakerId'],
+                    "role": person.data()['n.role']
                 })
             return arr.tolist()
 
@@ -51,7 +51,7 @@ class MockDatabase(Database):
                 where = "WHERE m.sentiment < 0"
 
             query = "MATCH (a)-[s:" + REL_SEND + "]->(m:" + NODE_KOMMENTAR + ")-[r:" + REL_RECEIVE + "]->(b) " \
-                    + where + " RETURN m.sentiment AS sentiment, a.rednerId AS sender, b.rednerId AS recipient"
+                    + where + " RETURN m.sentiment AS sentiment, a.speakerId AS sender, b.speakerId AS recipient"
 
             messages = session.run(query)
             return messages.data()
@@ -93,36 +93,24 @@ class MockDatabase(Database):
         ]
         persons = [
             {
-                'rednerId': 'p1',
-                'vorname': 'Angela',
-                'nachname': 'Merkel',
-                'nameszusatz': '',
-                'titel': '',
-                'bdland': ''
+                'speakerId': 'p1',
+                'name': 'Angela Merkel',
+                'role': ''
             },
             {
-                'rednerId': 'p2',
-                'vorname': 'Jens',
-                'nachname': 'Spahn',
-                'nameszusatz': '',
-                'titel': '',
-                'bdland': ''
+                'speakerId': 'p2',
+                'name': 'Jens Spahn',
+                'role': ''
             },
             {
-                'rednerId': 'p3',
-                'vorname': 'Heiko',
-                'nachname': 'Maas',
-                'nameszusatz': '',
-                'titel': '',
-                'bdland': ''
+                'speakerId': 'p3',
+                'name': 'Heiko Maas',
+                'role': ''
             },
             {
-                'rednerId': 'p4',
-                'vorname': 'Weidel',
-                'nachname': 'Alice',
-                'nameszusatz': '',
-                'titel': '',
-                'bdland': ''
+                'speakerId': 'p4',
+                'name': 'Alice Weidel',
+                'role': ''
             }
         ]
         messages = [
@@ -189,14 +177,14 @@ class MockDatabase(Database):
 
         fcnt = 0
         for fraction in factions:
-            query = query + "CREATE (f" + str(fcnt) + ":" + NODE_FRAKTION + "{name:'" + fraction[
+            query = query + "CREATE (f" + str(fcnt) + ":" + NODE_FACTION + "{name:'" + fraction[
                 'name'] + "',beschreibung:'" + \
                     fraction['beschreibung'] + "'})\n"
             fcnt = fcnt + 1
 
         for person in persons:
-            query = query + "CREATE (" + person['rednerId'] + ":" + NODE_PERSON + "{vorname:'" + person[
-                'vorname'] + "', nachname: '" + person['nachname'] + "', rednerId:'" + person['rednerId'] + "'}) \n"
+            query = query + "CREATE (" + person['speakerId'] + ":" + NODE_PERSON + "{name:'" + person[
+                'name'] + "', role: '" + person['role'] + "', speakerId:'" + person['speakerId'] + "'}) \n"
 
         query = query + "CREATE(p1)-[fr1:" + REL_MITGLIED + "]->(f0)\n"
         query = query + "CREATE(p2)-[fr2:" + REL_MITGLIED + "]->(f0)\n"

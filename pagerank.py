@@ -19,7 +19,7 @@ def aggregate_messages(messages):
 
 
 def calculate_pagerank_eigenvector(persons, messages, reverse=False, max_iterations=100, d=0.85):
-    person_ids = sorted([person['rednerId'] for person in persons])
+    person_ids = sorted([person['speakerId'] for person in persons])
     n = len(person_ids)
     matrix = np.zeros((n, n))
 
@@ -48,7 +48,7 @@ def calculate_pagerank_eigenvector(persons, messages, reverse=False, max_iterati
         if np.array_equal(pagerank, old_pagerank):
             break
 
-    persons = sorted(persons, key=lambda entry: entry['rednerId'])
+    persons = sorted(persons, key=lambda entry: entry['speakerId'])
     for rank, person in zip(pagerank, persons):
         person['rank'] = round(rank, 2)
 

@@ -1,7 +1,7 @@
 from os import getenv
 
 from database.Database import Database
-from pagerank import aggregate_messages, pagerank
+from pagerank import aggregate_messages, calculate_pagerank_eigenvector
 
 NODE_PERSON = 'Person'
 NODE_FACTION = 'Faction'
@@ -50,8 +50,8 @@ class Group4Database(Database):
     def get_persons_ranked(self):
         persons = self.get_persons()
         messages = self.get_messages()
-        ranked = pagerank(persons, aggregate_messages(messages))
-        return sorted(ranked.tolist(), key=lambda x: x['rank'], reverse=True)
+        ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages))
+        return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
 
 def setup_group4_db():
