@@ -1,23 +1,17 @@
-from time import sleep
-
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
-from flask import request
-import json
 
 from database.Group5Database import setup_group5_db
-from database.MockDatabase import setup_mock_db
 from database.Group4Database import setup_group4_db
 
 from dotenv import load_dotenv
 load_dotenv(verbose=True)
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 CORS(app)
 
-sleep(10)
-
-mock_db = setup_mock_db()
 group4_db = setup_group4_db()
 group5_db = setup_group5_db()
 
@@ -25,52 +19,30 @@ group5_db = setup_group5_db()
 # GROUP 4 endpoints
 @app.route('/persons')
 def get_persons():
-    return json.dumps(group4_db.get_persons(), ensure_ascii=False)
+    return jsonify(group4_db.get_persons())
 
 @app.route('/persons/messages')
 def get_messages():
-    return json.dumps(group4_db.get_messages(), ensure_ascii=False)
+    return jsonify(group4_db.get_messages())
 
 @app.route('/persons/graph')
 def get_persons_graph():
-    return json.dumps(group4_db.get_graph(), ensure_ascii=False)
+    return jsonify(group4_db.get_graph())
 
 @app.route('/persons/ranked')
 def get_persons_ranked():
-    return json.dumps(group4_db.get_persons_ranked(), ensure_ascii=False)
+    return jsonify(group4_db.get_persons_ranked())
 
 
 # GROUP 5 endpoints
 @app.route('/factions')
 def get_factions():
-    return json.dumps(group5_db.get_factions(), ensure_ascii=False)
+    return jsonify(group5_db.get_factions())
 
 
 @app.route('/factions/graph')
 def get_faction_graph():
-    return json.dumps(group5_db.get_graph(), ensure_ascii=False)
-
-
-# MOCK ENDPOINTS
-@app.route('/mock/persons')
-def get_mock_persons():
-    return json.dumps(mock_db.get_persons(), ensure_ascii=False)
-
-
-@app.route('/mock/ranked')
-def get_mock_persons_ranked():
-    return json.dumps(mock_db.get_persons_with_rank(request.args.get('filter')), ensure_ascii=False)
-
-
-@app.route('/mock/messages')
-def get_mock_messages():
-    return json.dumps(mock_db.get_messages(request.args.get('filter')), ensure_ascii=False)
-
-
-@app.route('/mock/sentiment')
-def get_mock_avg_sentiment():
-    return json.dumps(mock_db.get_avg_sentiment(), ensure_ascii=False)
-
+    return jsonify(group5_db.get_graph())
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
