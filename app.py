@@ -21,13 +21,16 @@ group5_db = setup_group5_db()
 def get_persons():
     return jsonify(group4_db.get_persons())
 
+
 @app.route('/persons/messages')
 def get_messages():
     return jsonify(group4_db.get_messages())
 
+
 @app.route('/persons/graph')
 def get_persons_graph():
     return jsonify(group4_db.get_graph())
+
 
 @app.route('/persons/ranked')
 def get_persons_ranked():
@@ -40,9 +43,20 @@ def get_factions():
     return jsonify(group5_db.get_factions())
 
 
+@app.route('/factions/messages')
+def get_factions_messages():
+    return jsonify(group5_db.get_messages())
+
+
 @app.route('/factions/graph')
 def get_faction_graph():
     return jsonify(group5_db.get_graph())
+
+
+@app.route('/factions/ranked')
+def get_factions_ranked():
+    return jsonify(group5_db.get_factions_ranked())
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
