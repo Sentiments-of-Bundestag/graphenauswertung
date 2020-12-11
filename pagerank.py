@@ -29,8 +29,7 @@ def calculate_pagerank_eigenvector(persons, messages, field_name='speakerId', re
 
         for outgoing_message in outgoing_messages:
             j = person_ids.index(person)
-            i = person_ids.index(outgoing_message['sender']) if reverse \
-                else person_ids.index(outgoing_message['recipient'])
+            i = person_ids.index(outgoing_message['sender']) if reverse else person_ids.index(outgoing_message['recipient'])
             matrix[i, j] = 1 / len(outgoing_messages)
 
         if len(outgoing_messages) == 0:
