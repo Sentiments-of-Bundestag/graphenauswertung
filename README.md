@@ -61,20 +61,3 @@ returns the person graph based on the group4 database
 ### `persons/ranked`
 
 returns the page-ranked persons from group4 database
-
-### `/mock/persons`
-
-returns the mock persons from the internal mock database 
-
-### `/mock/ranked`
-
-returns the ranked persons from the internal mock database
-
-### `/mock/messages`
-
-returns the messages from the internal mock database
-
-### `/mock/sentiment`
-
-return the average sentiment over the messages from the internal mock database
-
