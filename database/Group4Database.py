@@ -1,4 +1,5 @@
 from os import getenv
+import numpy as np
 
 from database.Database import Database
 from pagerank import aggregate_messages, calculate_pagerank_eigenvector
@@ -52,6 +53,30 @@ class Group4Database(Database):
         messages = self.get_messages()
         ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages))
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
+
+    def get_key_figures(self, wahlperiode):
+        # TODO: Filter key figures through electoral terms
+
+        print("In Database file", wahlperiode)
+        messages = aggregate_messages(self.get_messages())
+        sentiments = []
+        lowest_sentiments = sorted(messages, key=lambda x: x['sentiment'])
+        del lowest_sentiments[1:]
+        highest_sentiment = sorted(messages, key=lambda x: x['sentiment'], reverse=True)
+        del highest_sentiment[1:]
+
+        for message in messages:
+            sentiments.append(message['sentiment'])
+
+        sentiments = sorted(sentiments)
+
+        return {
+            'lowest_sentiments': lowest_sentiments[0]['sentiment'],
+            'highest_sentiment': highest_sentiment[0]['sentiment'],
+            'sentiment_median': np.median(sentiments),
+            'sentiment_lower_quartil': np.quantile(sentiments, 0.25),
+            'sentiment_upper_quartil': np.quantile(sentiments, 0.75)
+        }
 
 
 def setup_group4_db():

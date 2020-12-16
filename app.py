@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+
 from flask_cors import CORS
 
 from database.Group5Database import setup_group5_db
@@ -32,6 +33,13 @@ def get_persons_graph():
 @app.route('/persons/ranked')
 def get_persons_ranked():
     return jsonify(group4_db.get_persons_ranked())
+
+
+@app.route('/persons/sentiment/key_figures')
+def get_key_figures():
+    # Enter /persons/sentiment/key_figures?wahlperiode=[number]
+    print('From app.py - wahlperiode:', request.args.get("wahlperiode"))
+    return jsonify(group4_db.get_key_figures(wahlperiode=request.args.get("wahlperiode")))
 
 
 # GROUP 5 endpoints
