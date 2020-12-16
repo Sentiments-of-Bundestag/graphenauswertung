@@ -16,13 +16,15 @@ REL_SENDER = 'SENDER'
 class Group4Database(Database):
     def get_persons(self):
         with self.driver.session() as session:
-            persons = session.run("MATCH (n:{}) RETURN n".format(NODE_PERSON))
+            persons = session.run("MATCH (p:{0})-[r:{1}]->(f:{2}) RETURN p,f"
+                                  .format(NODE_PERSON, REL_MEMBER, NODE_FACTION))
             arr = []
             for person in persons:
                 arr.append({
-                    'name': person.data()['n']['name'],
-                    'speakerId': person.data()['n']['speakerId'],
-                    'role': person.data()['n']['role'],
+                    'name': person.data()['p']['name'],
+                    'speakerId': person.data()['p']['speakerId'],
+                    'role': person.data()['p']['role'],
+                    'faction': person.data()['f']['name']
                 })
             return arr
 
