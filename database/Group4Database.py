@@ -26,12 +26,12 @@ class Group4Database(Database):
                 })
             return arr
 
-    def get_messages(self):
+    def get_messages(self, sentiment_type="NEUTRAL"):
         with self.driver.session() as session:
             where = ""
-            if type == "POSITIVE":
+            if sentiment_type == "POSITIVE":
                 where = "WHERE m.sentiment > 0"
-            if type == "NEGATIVE":
+            if sentiment_type == "NEGATIVE":
                 where = "WHERE m.sentiment < 0"
 
             query = "MATCH (a)-[s:{0}]->(m:{1})-[r:{2}]->(b) {3}" \
@@ -47,9 +47,9 @@ class Group4Database(Database):
             'messages': aggregate_messages(self.get_messages())
         }
 
-    def get_persons_ranked(self):
+    def get_persons_ranked(self, sentiment_type):
         persons = self.get_persons()
-        messages = self.get_messages()
+        messages = self.get_messages(sentiment_type)
         ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages))
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 

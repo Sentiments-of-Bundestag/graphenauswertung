@@ -1,6 +1,7 @@
 from os import getenv
 
 from database.Database import Database
+from pagerank import calculate_pagerank_eigenvector
 
 NODE_FACTION = 'Faction'
 REL_COMMENTED = 'COMMENTED'
@@ -38,8 +39,8 @@ class Group5Database(Database):
                 if faction_name is not other_name:
                     sentiment = self.get_sentiment(faction_name, other_name)
                     messages.append({
-                        'from': faction_name,
-                        'to': other_name,
+                        'sender': faction_name,
+                        'recipient': other_name,
                         'sentiment': sentiment
                     })
 
@@ -47,6 +48,21 @@ class Group5Database(Database):
             'factions': factions,
             'messages': messages
         }
+
+    def get_messages(self, sentiment_type="NEUTRAL"):
+        result = self.get_graph()
+        if sentiment_type == 'POSITIVE':
+            return list(filter(lambda x: x['sentiment'] >= 0, result['messages']))
+        elif sentiment_type == 'NEGATIVE':
+            return list(filter(lambda x: x['sentiment'] <= 0, result['messages']))
+        else:
+            return result['messages']
+
+    def get_factions_ranked(self, sentiment_type):
+        factions = self.get_factions()
+        messages = self.get_messages(sentiment_type)
+        ranked = calculate_pagerank_eigenvector(factions, messages, field_name='name')
+        return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
 
 def setup_group5_db():

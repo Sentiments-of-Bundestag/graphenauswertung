@@ -46,6 +46,10 @@ returns all factions from group5 database
 
 returns the faction graph based on the group5 database
 
+### `/factions/ranked`
+
+returns the page-ranked factions from group5 database
+
 ### `/persons`
 
 returns all persons from group4 database
