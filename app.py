@@ -37,9 +37,7 @@ def get_persons_ranked():
 
 @app.route('/persons/sentiment/key_figures')
 def get_key_figures():
-    # Enter /persons/sentiment/key_figures?wahlperiode=[number]
-    print('From app.py - wahlperiode:', request.args.get("wahlperiode"))
-    return jsonify(group4_db.get_key_figures(wahlperiode=request.args.get("wahlperiode")))
+    return jsonify(group4_db.get_key_figures(session_id=request.args.get("session_id")))
 
 
 # GROUP 5 endpoints
