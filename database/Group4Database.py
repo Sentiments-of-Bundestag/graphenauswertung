@@ -71,8 +71,8 @@ class Group4Database(Database):
             highest_sentiment = None
             lowest_sentiment = None
             median = None
-            sentiment_lower_quartil = None
-            sentiment_upper_quartil = None
+            sentiment_lower_quartile = None
+            sentiment_upper_quartile = None
 
             if len(data) > 0:
                 for element in data:
@@ -83,15 +83,15 @@ class Group4Database(Database):
                 del lowest_sentiment[1:]
                 sentiments = sorted(sentiments)
                 median = np.median(sentiments)
-                sentiment_lower_quartil = np.quantile(sentiments, 0.25)
-                sentiment_upper_quartil = np.quantile(sentiments, 0.75)
+                sentiment_lower_quartile = np.quantile(sentiments, 0.25)
+                sentiment_upper_quartile = np.quantile(sentiments, 0.75)
 
             return {
                 'lowest_sentiment': lowest_sentiment,
                 'highest_sentiment': highest_sentiment,
                 'sentiment_median': median,
-                'sentiment_lower_quartil': sentiment_lower_quartil,
-                'sentiment_upper_quartil': sentiment_upper_quartil
+                'sentiment_lower_quartile': sentiment_lower_quartile,
+                'sentiment_upper_quartile': sentiment_upper_quartile
             }
 
 
