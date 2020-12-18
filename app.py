@@ -37,6 +37,11 @@ def get_persons_ranked():
     return jsonify(group4_db.get_persons_ranked(request.args.get('filter')))
 
 
+@app.route('/persons/sentiment/key_figures')
+def get_key_figures():
+    return jsonify(group4_db.get_key_figures(session_id=request.args.get("session_id")))
+
+
 # GROUP 5 endpoints
 @app.route('/factions')
 def get_factions():

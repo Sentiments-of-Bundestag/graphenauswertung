@@ -58,34 +58,41 @@ class Group4Database(Database):
 
     def get_key_figures(self, session_id):
         with self.driver.session() as session:
-            if session_id == None:
-                return {'error': 'Please enter the session you want to look at by adding ?session_id=[sessionId]'}
+            if session_id is None:
+                query = 'MATCH (c:{0})-[:{1}]->(ps:{2}) RETURN c.sentiment AS sentiment' \
+                    .format(NODE_COMMENTARY, REL_SESSION, NODE_SESSION)
             else:
-                query = 'MATCH (c:{0})-[:{1}]->(ps:{2}) WHERE ps.sessionId = {3} RETURN c.sentiment AS sentiment'\
+                query = 'MATCH (c:{0})-[:{1}]->(ps:{2}) WHERE ps.sessionId = {3} RETURN c.sentiment AS sentiment' \
                     .format(NODE_COMMENTARY, REL_SESSION, NODE_SESSION, session_id)
-                data = session.run(query)
-                data = data.data()
-                if len(data) < 1:
-                    return {'error': 'This session_id does not exist'}
-                else:
-                    sentiments = []
-                    for element in data:
-                        sentiments.append(element['sentiment'])
+            data = session.run(query)
+            data = data.data()
 
-                    highest_sentiment = sorted(sentiments, reverse=True)
-                    del highest_sentiment[1:]
-                    lowest_sentiment = sorted(sentiments)
-                    del lowest_sentiment[1:]
+            sentiments = []
+            highest_sentiment = None
+            lowest_sentiment = None
+            median = None
+            sentiment_lower_quartil = None
+            sentiment_upper_quartil = None
 
-                    sentiments = sorted(sentiments)
+            if len(data) > 0:
+                for element in data:
+                    sentiments.append(element['sentiment'])
+                highest_sentiment = sorted(sentiments, reverse=True)
+                del highest_sentiment[1:]
+                lowest_sentiment = sorted(sentiments)
+                del lowest_sentiment[1:]
+                sentiments = sorted(sentiments)
+                median = np.median(sentiments)
+                sentiment_lower_quartil = np.quantile(sentiments, 0.25)
+                sentiment_upper_quartil = np.quantile(sentiments, 0.75)
 
-                    return {
-                        'lowest_sentiment': lowest_sentiment,
-                        'highest_sentiment': highest_sentiment,
-                        'sentiment_median': np.median(sentiments),
-                        'sentiment_lower_quartil': np.quantile(sentiments, 0.25),
-                        'sentiment_upper_quartil': np.quantile(sentiments, 0.75)
-                    }
+            return {
+                'lowest_sentiment': lowest_sentiment,
+                'highest_sentiment': highest_sentiment,
+                'sentiment_median': median,
+                'sentiment_lower_quartil': sentiment_lower_quartil,
+                'sentiment_upper_quartil': sentiment_upper_quartil
+            }
 
 
 def setup_group4_db():
