@@ -17,22 +17,24 @@ REL_SENDER = 'SENDER'
 class Group4Database(Database):
     def get_persons(self):
         with self.driver.session() as session:
-            persons = session.run("MATCH (n:{}) RETURN n".format(NODE_PERSON))
+            persons = session.run("MATCH (p:{0})-[r:{1}]->(f:{2}) RETURN p,f"
+                                  .format(NODE_PERSON, REL_MEMBER, NODE_FACTION))
             arr = []
             for person in persons:
                 arr.append({
-                    'name': person.data()['n']['name'],
-                    'speakerId': person.data()['n']['speakerId'],
-                    'role': person.data()['n']['role'],
+                    'name': person.data()['p']['name'],
+                    'speakerId': person.data()['p']['speakerId'],
+                    'role': person.data()['p']['role'],
+                    'faction': person.data()['f']['name']
                 })
             return arr
 
-    def get_messages(self):
+    def get_messages(self, sentiment_type="NEUTRAL"):
         with self.driver.session() as session:
             where = ""
-            if type == "POSITIVE":
+            if sentiment_type == "POSITIVE":
                 where = "WHERE m.sentiment > 0"
-            if type == "NEGATIVE":
+            if sentiment_type == "NEGATIVE":
                 where = "WHERE m.sentiment < 0"
 
             query = "MATCH (a)-[s:{0}]->(m:{1})-[r:{2}]->(b) {3}" \
@@ -48,9 +50,9 @@ class Group4Database(Database):
             'messages': aggregate_messages(self.get_messages())
         }
 
-    def get_persons_ranked(self):
+    def get_persons_ranked(self, sentiment_type):
         persons = self.get_persons()
-        messages = self.get_messages()
+        messages = self.get_messages(sentiment_type)
         ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages))
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 

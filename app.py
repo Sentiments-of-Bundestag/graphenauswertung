@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-
 from flask_cors import CORS
 
 from database.Group5Database import setup_group5_db
@@ -22,22 +21,20 @@ group5_db = setup_group5_db()
 def get_persons():
     return jsonify(group4_db.get_persons())
 
+
 @app.route('/persons/messages')
 def get_messages():
     return jsonify(group4_db.get_messages())
+
 
 @app.route('/persons/graph')
 def get_persons_graph():
     return jsonify(group4_db.get_graph())
 
+
 @app.route('/persons/ranked')
 def get_persons_ranked():
-    return jsonify(group4_db.get_persons_ranked())
-
-
-@app.route('/persons/sentiment/key_figures')
-def get_key_figures():
-    return jsonify(group4_db.get_key_figures(session_id=request.args.get("session_id")))
+    return jsonify(group4_db.get_persons_ranked(request.args.get('filter')))
 
 
 # GROUP 5 endpoints
@@ -49,6 +46,12 @@ def get_factions():
 @app.route('/factions/graph')
 def get_faction_graph():
     return jsonify(group5_db.get_graph())
+
+
+@app.route('/factions/ranked')
+def get_factions_ranked():
+    return jsonify(group5_db.get_factions_ranked(request.args.get('filter')))
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
