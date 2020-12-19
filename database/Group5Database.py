@@ -8,18 +8,24 @@ REL_COMMENTED = 'COMMENTED'
 
 
 class Group5Database(Database):
-
     group4_db = None
 
     def get_factions(self):
         with self.driver.session() as session:
-            factions = session.run("MATCH (n:{}) RETURN n".format(NODE_FACTION))
+            factions = session.run("MATCH (n:{}) RETURN n.name as name, n.size as size".format(NODE_FACTION))
+            group4_factions = self.group4_db.get_factions()
             arr = []
             for faction in factions:
-                arr.append({
-                    'name': faction.data()['n']['name'],
-                    'size': faction.data()['n']['size']
-                })
+                group4_faction = next(
+                    (f for f in group4_factions if
+                     f['name'].replace(" ", "") == faction.data()['name'].replace(" ", "")), None)
+                fac = {
+                    'name': faction.data()['name'],
+                    'size': faction.data()['size']
+                }
+                if group4_faction is not None:
+                    fac['factionId'] = group4_faction['factionId']
+                arr.append(fac)
             return arr
 
     def get_message(self, f1, f2, sentiment_type="NEUTRAL", session_id=None):
@@ -52,7 +58,7 @@ class Group5Database(Database):
                     '{4}' \
                     'with r as r, sum(r.weight) as weightsum, collect(r.polarity) as sentimentlist, ' \
                     'collect(r.weight) as weightlist unwind weightlist as weights unwind sentimentlist as sentiments ' \
-                    'RETURN sum((weights/weightsum)*sentiments) as sentiment, count(r) as count'\
+                    'RETURN sum((weights/weightsum)*sentiments) as sentiment, count(r) as count' \
                 .format(NODE_FACTION, REL_COMMENTED, f1, f2, where)
 
             sentiment = session.run(query)
@@ -69,8 +75,8 @@ class Group5Database(Database):
                     message = self.get_message(faction_name, other_name, sentiment_type, session_id)
                     if message['count'] > 0:
                         messages.append({
-                            'sender': faction_name,
-                            'recipient': other_name,
+                            'sender': faction['factionId'],
+                            'recipient': other['factionId'],
                             'sentiment': message['sentiment'],
                             'count': message['count']
                         })
@@ -87,7 +93,7 @@ class Group5Database(Database):
     def get_factions_ranked(self, sentiment_type, session_id=None):
         factions = self.get_factions()
         messages = self.get_messages(sentiment_type, session_id)
-        ranked = calculate_pagerank_eigenvector(factions, messages, field_name='name')
+        ranked = calculate_pagerank_eigenvector(factions, messages, field_name='factionId')
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
 
