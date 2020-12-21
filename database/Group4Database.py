@@ -23,30 +23,33 @@ class Group4Database(Database):
             if sentiment_type == "NEGATIVE":
                 where = "WHERE m.sentiment < 0"
 
+            session_match = ""
             if session_id is not None:
-                if len(where) is 0:
+                if len(where) == 0:
                     where = "WHERE "
                 else:
                     where = where + " AND "
                 where = where + "ses.sessionId = {0}".format(session_id)
+                session_match = "MATCH (p)-[c:{0}|{1}]-(m:{2})-[d:{3}]->(ses:{4})" \
+                    .format(REL_SENDER, REL_RECEIVER, NODE_COMMENTARY, REL_SESSION, NODE_SESSION)
 
-            query = "MATCH (p:{0})-[r:{1}]->(f:{2}) " \
-                    "MATCH (p)-[c:{3}|{4}]-(m:{5})-[d:{6}]->(ses:{7})" \
-                    "{8}" \
-                    "RETURN DISTINCT p,f" \
-                    .format(NODE_PERSON, REL_MEMBER, NODE_FACTION, REL_SENDER, REL_RECEIVER, NODE_COMMENTARY,
-                            REL_SESSION, NODE_SESSION, where)
-
-            print(query)
+            query = "MATCH (p:{0})" \
+                    "OPTIONAL MATCH (p)-[r:{1}]->(f:{2})" \
+                    "{3}" \
+                    "{4}" \
+                    "RETURN p.name as name, p.speakerId as speakerId, p.role as role, " \
+                    "f.name as faction, f.factionId as factionId" \
+                .format(NODE_PERSON, REL_MEMBER, NODE_FACTION, session_match, where)
 
             persons = session.run(query)
             arr = []
             for person in persons:
                 arr.append({
-                    'name': person.data()['p']['name'],
-                    'speakerId': person.data()['p']['speakerId'],
-                    'role': person.data()['p']['role'],
-                    'faction': person.data()['f']['name']
+                    'name': person.data()['name'],
+                    'speakerId': person.data()['speakerId'],
+                    'role': person.data()['role'],
+                    'faction': person.data()['faction'],
+                    'factionId': person.data()['factionId']
                 })
             return arr
 
@@ -59,7 +62,7 @@ class Group4Database(Database):
                 where = "WHERE m.sentiment < 0"
 
             if session_id is not None:
-                if len(where) is 0:
+                if len(where) == 0:
                     where = "WHERE "
                 else:
                     where = where + " AND "
@@ -69,10 +72,8 @@ class Group4Database(Database):
                     "MATCH (m)-[d:{4}]->(ses:{5})" \
                     "{3}" \
                     "RETURN m.sentiment AS sentiment, m.dateString as date, ses.sessionId as sessionId, " \
-                    "a.speakerId AS sender, b.speakerId AS recipient"\
+                    "a.speakerId AS sender, b.speakerId AS recipient" \
                 .format(REL_SENDER, NODE_COMMENTARY, REL_RECEIVER, where, REL_SESSION, NODE_SESSION)
-
-            print(query)
 
             messages = session.run(query)
             return messages.data()
@@ -105,7 +106,7 @@ class Group4Database(Database):
         with self.driver.session() as session:
             query = "MATCH (s:{0}) WHERE s.sessionId = {1} " \
                     "return s.sessionId as sessionId, s.legislative_period as legislativePeriod, " \
-                    "s.startDateTime as startDateTime, s.endDateTime as endDateTime"\
+                    "s.startDateTime as startDateTime, s.endDateTime as endDateTime" \
                 .format(NODE_SESSION, session_id)
             s = session.run(query).data()[0]
             return s

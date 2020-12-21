@@ -226,12 +226,14 @@ returns the person graph based on the group4 database
   "persons": [
     {
       "faction": "CDU/CSU", 
+      "factionId": "F000",
       "name": "Frank Heinrich", 
       "role": "Platzhalter", 
       "speakerId": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7"
     }, 
     {
-      "faction": "SPD", 
+      "faction": "SPD",  
+      "factionId": "F001",
       "name": "Frank Schwabe", 
       "role": "Platzhalter", 
       "speakerId": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112"
@@ -269,14 +271,16 @@ returns the page-ranked persons from group4 database
 ```json
 [
   {
-    "faction": "DIE LINKE", 
+    "faction": "DIE LINKE",
+    "factionId": "F003", 
     "name": "Caren Lay", 
     "rank": 0.029715244473085708, 
     "role": "Platzhalter", 
     "speakerId": "MDB-c3f825cc-9b63-4241-85f9-df425f0c6486"
   }, 
   {
-    "faction": "CDU/CSU", 
+    "faction": "CDU/CSU",    
+    "factionId": "F000",
     "name": "Wolfgang Schäuble", 
     "rank": 0.029176551464191278, 
     "role": "Platzhalter", 
