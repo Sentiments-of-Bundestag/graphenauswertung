@@ -8,28 +8,63 @@ REL_COMMENTED = 'COMMENTED'
 
 
 class Group5Database(Database):
+    group4_db = None
 
     def get_factions(self):
         with self.driver.session() as session:
-            factions = session.run("MATCH (n:{}) RETURN n".format(NODE_FACTION))
+            factions = session.run("MATCH (n:{}) RETURN n.name as name, n.size as size".format(NODE_FACTION))
+            group4_factions = self.group4_db.get_factions()
             arr = []
             for faction in factions:
-                arr.append({
-                    'name': faction.data()['n']['name'],
-                    'size': faction.data()['n']['size']
-                })
+                group4_faction = next(
+                    (f for f in group4_factions if
+                     f['name'].replace(" ", "") == faction.data()['name'].replace(" ", "")), None)
+                fac = {
+                    'name': faction.data()['name'],
+                    'size': faction.data()['size']
+                }
+                if group4_faction is not None:
+                    fac['factionId'] = group4_faction['factionId']
+                arr.append(fac)
             return arr
 
-    def get_sentiment(self, f1, f2):
+    def get_message(self, f1, f2, sentiment_type="NEUTRAL", session_id=None):
+        s = None
+        where = ""
+
+        if session_id is not None:
+            s = self.group4_db.get_session(session_id)
+
+        if s is not None:
+            session_date = s['startDateTime'].split('T')[0]
+            where = "WHERE split(r.date, 'T')[0] = '{0}'".format(session_date)
+
+        if sentiment_type == 'POSITIVE':
+            if len(where) == 0:
+                where = "WHERE "
+            else:
+                where = where + " AND "
+            where = where + "r.polarity > 0 "
+
+        if sentiment_type == 'NEGATIVE':
+            if len(where) == 0:
+                where = "WHERE "
+            else:
+                where = where + " AND "
+            where = where + "r.polarity < 0 "
+
         with self.driver.session() as session:
             query = 'MATCH p=(sender:{0} {{name:"{2}"}})-[r:{1} ]->(receiver:{0} {{name:"{3}"}}) ' \
-                    'with sum(r.weight) as weightsum, collect(r.polarity) as sentimentlist, ' \
+                    '{4}' \
+                    'with r as r, sum(r.weight) as weightsum, collect(r.polarity) as sentimentlist, ' \
                     'collect(r.weight) as weightlist unwind weightlist as weights unwind sentimentlist as sentiments ' \
-                    'RETURN sum((weights/weightsum)*sentiments) as sentiment'.format(NODE_FACTION, REL_COMMENTED, f1, f2)
-            sentiment = session.run(query)
-            return sentiment.data()[0]['sentiment']
+                    'RETURN sum((weights/weightsum)*sentiments) as sentiment, count(r) as count' \
+                .format(NODE_FACTION, REL_COMMENTED, f1, f2, where)
 
-    def get_graph(self):
+            sentiment = session.run(query)
+            return sentiment.data()[0]
+
+    def get_graph(self, sentiment_type="NEUTRAL", session_id=None):
         factions = self.get_factions()
         messages = []
         for faction in factions:
@@ -37,31 +72,28 @@ class Group5Database(Database):
                 faction_name = faction['name']
                 other_name = other['name']
                 if faction_name is not other_name:
-                    sentiment = self.get_sentiment(faction_name, other_name)
-                    messages.append({
-                        'sender': faction_name,
-                        'recipient': other_name,
-                        'sentiment': sentiment
-                    })
+                    message = self.get_message(faction_name, other_name, sentiment_type, session_id)
+                    if message['count'] > 0:
+                        messages.append({
+                            'sender': faction['factionId'],
+                            'recipient': other['factionId'],
+                            'sentiment': message['sentiment'],
+                            'count': message['count']
+                        })
 
         return {
             'factions': factions,
             'messages': messages
         }
 
-    def get_messages(self, sentiment_type="NEUTRAL"):
-        result = self.get_graph()
-        if sentiment_type == 'POSITIVE':
-            return list(filter(lambda x: x['sentiment'] >= 0, result['messages']))
-        elif sentiment_type == 'NEGATIVE':
-            return list(filter(lambda x: x['sentiment'] <= 0, result['messages']))
-        else:
-            return result['messages']
+    def get_messages(self, sentiment_type="NEUTRAL", session_id=None):
+        result = self.get_graph(sentiment_type, session_id)
+        return result['messages']
 
-    def get_factions_ranked(self, sentiment_type):
+    def get_factions_ranked(self, sentiment_type, session_id=None):
         factions = self.get_factions()
-        messages = self.get_messages(sentiment_type)
-        ranked = calculate_pagerank_eigenvector(factions, messages, field_name='name')
+        messages = self.get_messages(sentiment_type, session_id)
+        ranked = calculate_pagerank_eigenvector(factions, messages, field_name='factionId')
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
 
