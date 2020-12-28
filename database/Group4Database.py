@@ -15,21 +15,46 @@ REL_SENDER = 'SENDER'
 
 
 class Group4Database(Database):
-    def get_persons(self):
+    def get_persons(self, sentiment_type="NEUTRAL", session_id=None):
         with self.driver.session() as session:
-            persons = session.run("MATCH (p:{0})-[r:{1}]->(f:{2}) RETURN p,f"
-                                  .format(NODE_PERSON, REL_MEMBER, NODE_FACTION))
+
+            where = ""
+            if sentiment_type == "POSITIVE":
+                where = "WHERE m.sentiment > 0"
+            if sentiment_type == "NEGATIVE":
+                where = "WHERE m.sentiment < 0"
+
+            session_match = ""
+            if session_id is not None:
+                if len(where) == 0:
+                    where = "WHERE "
+                else:
+                    where = where + " AND "
+                where = where + "ses.sessionId = {0}".format(session_id)
+                session_match = "MATCH (p)-[c:{0}|{1}]-(m:{2})-[d:{3}]->(ses:{4})" \
+                    .format(REL_SENDER, REL_RECEIVER, NODE_COMMENTARY, REL_SESSION, NODE_SESSION)
+
+            query = "MATCH (p:{0})" \
+                    "OPTIONAL MATCH (p)-[r:{1}]->(f:{2})" \
+                    "{3}" \
+                    "{4}" \
+                    "RETURN p.name as name, p.speakerId as speakerId, p.role as role, " \
+                    "f.name as faction, f.factionId as factionId" \
+                .format(NODE_PERSON, REL_MEMBER, NODE_FACTION, session_match, where)
+
+            persons = session.run(query)
             arr = []
             for person in persons:
                 arr.append({
-                    'name': person.data()['p']['name'],
-                    'speakerId': person.data()['p']['speakerId'],
-                    'role': person.data()['p']['role'],
-                    'faction': person.data()['f']['name']
+                    'name': person.data()['name'],
+                    'speakerId': person.data()['speakerId'],
+                    'role': person.data()['role'],
+                    'faction': person.data()['faction'],
+                    'factionId': person.data()['factionId']
                 })
             return arr
 
-    def get_messages(self, sentiment_type="NEUTRAL"):
+    def get_messages(self, sentiment_type="NEUTRAL", session_id=None):
         with self.driver.session() as session:
             where = ""
             if sentiment_type == "POSITIVE":
@@ -37,22 +62,37 @@ class Group4Database(Database):
             if sentiment_type == "NEGATIVE":
                 where = "WHERE m.sentiment < 0"
 
-            query = "MATCH (a)-[s:{0}]->(m:{1})-[r:{2}]->(b) {3}" \
-                    "RETURN m.sentiment AS sentiment, a.speakerId AS sender, b.speakerId AS recipient".format(
-                REL_SENDER, NODE_COMMENTARY, REL_RECEIVER, where)
+            if session_id is not None:
+                if len(where) == 0:
+                    where = "WHERE "
+                else:
+                    where = where + " AND "
+                where = where + "ses.sessionId = {0}".format(session_id)
+
+            query = "MATCH (a)-[s:{0}]->(m:{1})-[r:{2}]->(b) " \
+                    "MATCH (m)-[d:{4}]->(ses:{5})" \
+                    "{3}" \
+                    "RETURN m.sentiment AS sentiment, m.dateString as date, ses.sessionId as sessionId, " \
+                    "a.speakerId AS sender, b.speakerId AS recipient" \
+                .format(REL_SENDER, NODE_COMMENTARY, REL_RECEIVER, where, REL_SESSION, NODE_SESSION)
 
             messages = session.run(query)
             return messages.data()
 
-    def get_graph(self):
+    def get_graph(self, sentiment_type="NEUTRAL", session_id=None):
         return {
-            'persons': self.get_persons(),
-            'messages': aggregate_messages(self.get_messages())
+            'persons': self.get_persons(sentiment_type, session_id),
+            'messages': aggregate_messages(self.get_messages(sentiment_type, session_id))
         }
 
-    def get_persons_ranked(self, sentiment_type):
+    def get_factions(self):
+        with self.driver.session() as session:
+            query = "MATCH (f:{}) return f.factionId as factionId, f.name as name".format(NODE_FACTION)
+            return session.run(query).data()
+
+    def get_persons_ranked(self, sentiment_type, session_id=None):
         persons = self.get_persons()
-        messages = self.get_messages(sentiment_type)
+        messages = self.get_messages(sentiment_type, session_id)
         ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages))
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
@@ -93,6 +133,23 @@ class Group4Database(Database):
                 'sentiment_lower_quartile': sentiment_lower_quartile,
                 'sentiment_upper_quartile': sentiment_upper_quartile
             }
+
+    def get_sessions(self):
+        with self.driver.session() as session:
+            query = "MATCH (s:{0}) return s.sessionId as sessionId, s.legislative_period as legislativePeriod, " \
+                    "s.startDateTime as startDateTime, s.endDateTime as endDateTime".format(NODE_SESSION)
+            sessions = session.run(query).data()
+            return sessions
+
+    def get_session(self, session_id):
+        with self.driver.session() as session:
+            query = "MATCH (s:{0}) WHERE s.sessionId = {1} " \
+                    "return s.sessionId as sessionId, s.legislative_period as legislativePeriod, " \
+                    "s.startDateTime as startDateTime, s.endDateTime as endDateTime" \
+                .format(NODE_SESSION, session_id)
+            s = session.run(query).data()[0]
+            return s
+
 
 
 def setup_group4_db():
