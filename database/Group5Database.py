@@ -116,8 +116,8 @@ class Group5Database(Database):
             sentiment_upper_quartile = np.quantile(sentiments, 0.75)
 
         return {
-            'lowest_sentiment': lowest_sentiment,
-            'highest_sentiment': highest_sentiment,
+            'lowest_sentiment': lowest_sentiment[0],
+            'highest_sentiment': highest_sentiment[0],
             'sentiment_median': median,
             'sentiment_lower_quartile': sentiment_lower_quartile,
             'sentiment_upper_quartile': sentiment_upper_quartile
