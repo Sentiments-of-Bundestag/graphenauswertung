@@ -51,7 +51,7 @@ def get_key_figures():
 # GROUP 5 endpoints
 @app.route('/factions')
 def get_factions():
-    return jsonify(group5_db.get_factions())
+    return jsonify(group5_db.get_factions(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
 
 
 @app.route('/factions/graph')
