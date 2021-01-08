@@ -165,16 +165,20 @@ returns all persons from group4 database
 ```json
 [
     {
-      "faction": "CDU/CSU", 
+      "faction": "CDU/CSU",
+      "factionId": "F000", 
       "name": "Frank Heinrich", 
       "role": "Platzhalter", 
-      "speakerId": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7"
+      "speakerId": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7",
+      "sessionIds": [ 46, 100 ]
     }, 
     {
       "faction": "SPD", 
+      "factionId": "F001",
       "name": "Frank Schwabe", 
       "role": "Platzhalter", 
-      "speakerId": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112"
+      "speakerId": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112",
+      "sessionIds": [ 46 ]
     }
 ]
 ```
@@ -182,7 +186,7 @@ returns all persons from group4 database
 
 ### `persons/messages`
 
-returns all messages from group4 database
+returns all messages from group4 database. The messages are not aggregated in any way.
 
 #### Query Parameters
 
@@ -211,7 +215,10 @@ returns all messages from group4 database
 
 ### `persons/graph`
 
-returns the person graph based on the group4 database
+returns the person graph based on the group4 database. 
+Messages are aggregated so that there is only one entry for a unique (directed) relationship between sender and recipient.
+The `count` is the total number of messages that were aggregated to the entry. 
+The `sentiment` is the sum of the sentiments of all messages that were aggregated to the entry. 
 
 #### Query Parameters
 
@@ -229,14 +236,16 @@ returns the person graph based on the group4 database
       "factionId": "F000",
       "name": "Frank Heinrich", 
       "role": "Platzhalter", 
-      "speakerId": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7"
+      "speakerId": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7",
+      "sessionIds": [ 46, 100 ]
     }, 
     {
       "faction": "SPD",  
       "factionId": "F001",
       "name": "Frank Schwabe", 
       "role": "Platzhalter", 
-      "speakerId": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112"
+      "speakerId": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112",
+      "sessionIds": [ 46 ]
     }
   ],
   "messages": [
