@@ -35,6 +35,8 @@ class Group5Database(Database):
         if session_id is not None:
             s = self.group4_db.get_session(session_id)
 
+        sessions = self.group4_db.get_sessions()
+
         if s is not None:
             session_date = s['startDateTime'].split('T')[0]
             where = "WHERE split(r.date, 'T')[0] = '{0}'".format(session_date)
@@ -60,6 +62,8 @@ class Group5Database(Database):
                     'collect(r.weight) as weightlist unwind weightlist as weights unwind sentimentlist as sentiments ' \
                     'RETURN sum((weights/weightsum)*sentiments) as sentiment, count(r) as count' \
                 .format(NODE_FACTION, REL_COMMENTED, f1, f2, where)
+
+            print(query)
 
             sentiment = session.run(query)
             return sentiment.data()[0]
