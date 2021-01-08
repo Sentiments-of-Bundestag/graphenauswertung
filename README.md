@@ -194,17 +194,17 @@ returns all messages from group4 database
 #### Sample Data
 ```json
 [
-    {
-      "count": 2, 
+    {     
       "recipient": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112", 
       "sender": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7", 
-      "sentiment": -0.2
+      "sentiment": 0.2,
+      "sessionId": 46
     },
     {
-      "count": 4, 
       "recipient": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7", 
-      "sender": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112", 
-      "sentiment": 0.1
+      "sender": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112",
+      "sentiment": 0.7, 
+      "sessionId": 46
     }
   ]
 ```
@@ -244,13 +244,15 @@ returns the person graph based on the group4 database
       "count": 2, 
       "recipient": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112", 
       "sender": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7", 
-      "sentiment": -0.2
+      "sentiment": -0.2,
+      "sessionIds": [ 46, 100 ]
     },
     {
       "count": 4, 
       "recipient": "MDB-24aa7763-e95d-4d1d-834c-de3cae2406d7", 
       "sender": "MDB-c0f339ee-9db1-411d-ad2f-0357e98bf112", 
-      "sentiment": 0.1
+      "sentiment": 0.1,
+      "sessionIds": [ 46 ]
     }
   ]
 }
@@ -275,7 +277,8 @@ returns the page-ranked persons from group4 database
     "factionId": "F003", 
     "name": "Caren Lay", 
     "rank": 0.029715244473085708, 
-    "role": "Platzhalter", 
+    "role": "Platzhalter",
+    "sessionIds": [ 46, 100 ],
     "speakerId": "MDB-c3f825cc-9b63-4241-85f9-df425f0c6486"
   }, 
   {
@@ -283,7 +286,8 @@ returns the page-ranked persons from group4 database
     "factionId": "F000",
     "name": "Wolfgang Schäuble", 
     "rank": 0.029176551464191278, 
-    "role": "Platzhalter", 
+    "role": "Platzhalter",   
+    "sessionIds": [ 46   ], 
     "speakerId": "MDB-fd366231-9c25-416b-8604-e934d956e177"
   }
 ]

@@ -11,9 +11,11 @@ def aggregate_messages(messages):
             sentiment = entry['sentiment'] + message['sentiment']
             entry['count'] = count
             entry['sentiment'] = sentiment
+            if message['sessionId'] not in entry['sessionIds']:
+                entry['sessionIds'].append(message['sessionId'])
 
         else:
-            result.append({'sender': message['sender'], 'recipient': message['recipient'], 'count': 1, 'sentiment': message['sentiment']})
+            result.append({'sender': message['sender'], 'recipient': message['recipient'], 'count': 1, 'sentiment': message['sentiment'], 'sessionIds': [message['sessionId']]})
 
     return result
 
