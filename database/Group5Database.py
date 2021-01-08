@@ -13,9 +13,10 @@ class Group5Database(Database):
     def get_factions(self, sentiment_type="NEUTRAL", session_id=None):
         where = self.get_where_clause(sentiment_type, session_id)
         with self.driver.session() as session:
-            query = "MATCH (sender:{0})-[r:{1}]->(recipient:{0}) " \
+            query = "MATCH (sender:{0})-[r:{1}]-(recipient:{0}) " \
                     "{2} " \
-                    "with sender, r, recipient, collect(distinct r.sessionId) as sessionList " \
+                    "with sender, collect(distinct r.sessionId) as sessionList, " \
+                    "collect(r) as rlist unwind rlist as r " \
                     "RETURN DISTINCT sender.name as name, sender.size as size, sender.factionId as factionId, " \
                     "sessionList as sessionIds" \
                 .format(NODE_FACTION, REL_COMMENTED, where)
@@ -24,7 +25,7 @@ class Group5Database(Database):
             return factions.data()
 
     def get_graph(self, sentiment_type="NEUTRAL", session_id=None):
-        factions = self.get_factions()
+        factions = self.get_factions(sentiment_type, session_id)
         messages = self.get_messages(sentiment_type, session_id)
         return {
             'factions': factions,
