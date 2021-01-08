@@ -310,9 +310,9 @@ returns the calculated key figures of sentiments between all persons
 
 #### Query Parameters
 
-| Name           | Description                                                                                    | Allowed Values                 |
-|----------------|------------------------------------------------------------------------------------------------|--------------------------------|
-| ?session_id=   | Limits the messages used for key figures calculation to only those from the given session      | any sessionId from `/sessions` |
+| Name      | Description                                                                                    | Allowed Values                 |
+|-----------|------------------------------------------------------------------------------------------------|--------------------------------|
+| session   | Limits the messages used for key figures calculation to only those from the given session      | any sessionId from `/sessions` |
 
 #### Sample Data
 ```json
