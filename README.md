@@ -66,19 +66,24 @@ returns all factions from group5 database
   {
     "name": "CDU/CSU", 
     "size": 246,
-    "factionId": "F000"
+    "factionId": "F000",
+    "sessionIds": [ 46, 100]
   }, 
   {
     "name": "SPD", 
     "size": 152,
-    "factionId": "F001"
+    "factionId": "F001",
+    "sessionIds": [ 46 ]
   }
 ]
 ```
 
 ### `/factions/graph`
 
-returns the faction graph based on the group5 database
+returns the faction graph based on the group5 database. 
+Messages are aggregated so that there is only one entry for a unique (directed) relationship between sender and recipient.
+The `count` is the total number of messages that were aggregated to the entry. 
+The `sentiment` is the sum of the sentiments of all messages that were aggregated to the entry. 
 
 #### Query Parameters
 
@@ -107,13 +112,15 @@ returns the faction graph based on the group5 database
       "recipient": "F001",
       "sender": "F000",
       "sentiment": -1.399999976158142,
-      "count": 10
+      "count": 10,
+      "sessionIds": [46, 100]
     },
     {
       "recipient": "F000",
       "sender": "F001",
       "sentiment": 0.1,
-      "count": 2 
+      "count": 2,
+      "sessionIds": [46, 100]
     }
   ]
 }
