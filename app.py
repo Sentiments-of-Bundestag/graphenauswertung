@@ -28,6 +28,7 @@ group5_db.group4_db = group4_db
 
 QUERY_PARAM_FILTER = 'filter'
 QUERY_PARAM_SESSION = 'session'
+QUERY_PARAM_PERSON = 'person'
 
 
 def generate_cache_key():
@@ -53,19 +54,22 @@ def generate_cache_key_figures():
 @app.route('/persons')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_persons():
-    return jsonify(group4_db.get_persons(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
+    return jsonify(group4_db.get_persons(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
+                                         request.args.get(QUERY_PARAM_PERSON)))
 
 
 @app.route('/persons/messages')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_messages():
-    return jsonify(group4_db.get_messages(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
+    return jsonify(group4_db.get_messages(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
+                                          request.args.get(QUERY_PARAM_PERSON)))
 
 
 @app.route('/persons/graph')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_persons_graph():
-    return jsonify(group4_db.get_graph(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
+    return jsonify(group4_db.get_graph(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
+                                       request.args.get(QUERY_PARAM_PERSON)))
 
 
 @app.route('/persons/ranked')
