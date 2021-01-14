@@ -24,34 +24,40 @@ class Group4Database(Database):
             if sentiment_type == "NEGATIVE":
                 where = "WHERE m.sentiment < 0"
 
-            session_match = ""
+            session_match = "MATCH (p)-[c:{0}|{1}]-(m:{2})-[d:{3}]->(ses:{4})" \
+                .format(REL_SENDER, REL_RECEIVER, NODE_COMMENTARY, REL_SESSION, NODE_SESSION)
             if session_id is not None:
                 if len(where) == 0:
                     where = "WHERE "
                 else:
                     where = where + " AND "
                 where = where + "ses.sessionId = {0}".format(session_id)
-                session_match = "MATCH (p)-[c:{0}|{1}]-(m:{2})-[d:{3}]->(ses:{4})" \
-                    .format(REL_SENDER, REL_RECEIVER, NODE_COMMENTARY, REL_SESSION, NODE_SESSION)
 
             query = "MATCH (p:{0})" \
                     "OPTIONAL MATCH (p)-[r:{1}]->(f:{2})" \
                     "{3}" \
                     "{4}" \
-                    "RETURN p.name as name, p.speakerId as speakerId, p.role as role, " \
-                    "f.name as faction, f.factionId as factionId" \
+                    "RETURN DISTINCT p.name as name, p.speakerId as speakerId, p.role as role, " \
+                    "f.name as faction, f.factionId as factionId, ses.sessionId as sessionId" \
                 .format(NODE_PERSON, REL_MEMBER, NODE_FACTION, session_match, where)
 
             persons = session.run(query)
             arr = []
             for person in persons:
-                arr.append({
-                    'name': person.data()['name'],
-                    'speakerId': person.data()['speakerId'],
-                    'role': person.data()['role'],
-                    'faction': person.data()['faction'],
-                    'factionId': person.data()['factionId']
-                })
+                existing_entries = [x for x in arr if(x['speakerId'] == person['speakerId'])]
+                if len(existing_entries) > 0:
+                    entry = existing_entries[0]
+                    if person['sessionId'] not in entry['sessionIds']:
+                        entry['sessionIds'].append(person['sessionId'])
+                else:
+                    arr.append({
+                        'name': person.data()['name'],
+                        'speakerId': person.data()['speakerId'],
+                        'role': person.data()['role'],
+                        'faction': person.data()['faction'],
+                        'factionId': person.data()['factionId'],
+                        'sessionIds': [person['sessionId']]
+                    })
             return arr
 
     def get_messages(self, sentiment_type="NEUTRAL", session_id=None):
@@ -72,7 +78,7 @@ class Group4Database(Database):
             query = "MATCH (a)-[s:{0}]->(m:{1})-[r:{2}]->(b) " \
                     "MATCH (m)-[d:{4}]->(ses:{5})" \
                     "{3}" \
-                    "RETURN m.sentiment AS sentiment, m.dateString as date, ses.sessionId as sessionId, " \
+                    "RETURN m.sentiment AS sentiment, ses.sessionId as sessionId, " \
                     "a.speakerId AS sender, b.speakerId AS recipient" \
                 .format(REL_SENDER, NODE_COMMENTARY, REL_RECEIVER, where, REL_SESSION, NODE_SESSION)
 
