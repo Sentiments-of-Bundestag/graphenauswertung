@@ -178,10 +178,11 @@ returns all persons from group4 database
 
 #### Query Parameters
 
-| Name    | Description                                                                             | Allowed Values               |
-|---------|-----------------------------------------------------------------------------------------|------------------------------|
-| filter  | Limits the persons to only those connected to messages with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
+| Name    | Description                                                                             | Allowed Values                 |
+|---------|-----------------------------------------------------------------------------------------|--------------------------------|
+| filter  | Limits the persons to only those connected to messages with the given type of sentiment | `POSITIVE`, `NEGATIVE`         |
 | session | Limits the persons to only those connected to messages in the given session             | any sessionId from `/sessions` |
+| person  | Limits the persons to only the given person                                             | any speakerId from `/persons`  |
 
 #### Sample Data
 ```json
@@ -212,11 +213,11 @@ returns all messages from group4 database. The messages are not aggregated in an
 
 #### Query Parameters
 
-| Name    | Description                                                        | Allowed Values               |
-|---------|--------------------------------------------------------------------|------------------------------|
-| filter  | Limits the messages to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
+| Name    | Description                                                        | Allowed Values                 |
+|---------|--------------------------------------------------------------------|--------------------------------|
+| filter  | Limits the messages to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`         |
 | session | Limits the messages to only those from the given session           | any sessionId from `/sessions` |
-
+| person  | Limits the messages to only those from the given person            | any speakerId from `/persons`  |
 #### Sample Data
 ```json
 [
@@ -244,11 +245,11 @@ The `sentiment` is the sum of the sentiments of all messages that were aggregate
 
 #### Query Parameters
 
-| Name    | Description                                                                                                                                             | Allowed Values               |
-|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------|
-| filter  | Limits the messages to only those with the given type of sentiment and the persons to only those connected to messages with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
+| Name    | Description                                                                                                                                             | Allowed Values                 |
+|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|
+| filter  | Limits the messages to only those with the given type of sentiment and the persons to only those connected to messages with the given type of sentiment | `POSITIVE`, `NEGATIVE`         |
 | session | Limits the messages to only those from the given session the persons to only those connected to messages in the given session                           | any sessionId from `/sessions` |
-
+| person  | Limits the messages to only those from the given person and the persons information to only those connected to the given person                         | any speakerId from `/persons`  |
 #### Sample Data
 ```json
 {
