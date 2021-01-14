@@ -75,6 +75,7 @@ class Group4Database(Database):
             if sentiment_type == "NEGATIVE":
                 where = "WHERE m.sentiment < 0"
 
+            if session_id is not None:
                 if len(where) == 0:
                     where = "WHERE "
                 else:
