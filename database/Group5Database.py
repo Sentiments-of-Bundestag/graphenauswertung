@@ -1,4 +1,5 @@
 from os import getenv
+import numpy as np
 
 from database.Database import Database
 from pagerank import calculate_pagerank_eigenvector
@@ -30,6 +31,42 @@ class Group5Database(Database):
         return {
             'factions': factions,
             'messages': messages
+        }
+
+    def get_key_figures(self, session_id):
+        factions = self.get_factions()
+        sentiments = []
+        highest_sentiment = None
+        lowest_sentiment = None
+        median = None
+        sentiment_lower_quartile = None
+        sentiment_upper_quartile = None
+
+        for faction in factions:
+            for other in factions:
+                faction_name = faction['name']
+                other_name = other['name']
+                if faction_name is not other_name:
+                    message = self.get_message(faction_name, other_name, "NEUTRAL", session_id)
+                    if message['count'] > 0:
+                        sentiments.append(message['sentiment'])
+
+        if len(sentiments) > 0:
+            highest_sentiment = sorted(sentiments, reverse=True)
+            del highest_sentiment[1:]
+            lowest_sentiment = sorted(sentiments)
+            del lowest_sentiment[1:]
+            sentiments = sorted(sentiments)
+            median = np.median(sentiments)
+            sentiment_lower_quartile = np.quantile(sentiments, 0.25)
+            sentiment_upper_quartile = np.quantile(sentiments, 0.75)
+
+        return {
+            'lowest_sentiment': lowest_sentiment[0],
+            'highest_sentiment': highest_sentiment[0],
+            'sentiment_median': median,
+            'sentiment_lower_quartile': sentiment_lower_quartile,
+            'sentiment_upper_quartile': sentiment_upper_quartile
         }
 
     def get_messages(self, sentiment_type="NEUTRAL", session_id=None):

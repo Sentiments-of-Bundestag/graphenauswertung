@@ -77,8 +77,8 @@ def get_persons_ranked():
 
 @app.route('/persons/sentiment/key_figures')
 @cache.cached(make_cache_key=generate_cache_key_figures)
-def get_key_figures():
-    return jsonify(group4_db.get_key_figures(session_id=request.args.get("session_id")))
+def get_key_figures_persons():
+    return jsonify(group4_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION)))
 
 
 # GROUP 5 endpoints
@@ -99,6 +99,11 @@ def get_faction_graph():
 def get_factions_ranked():
     return jsonify(
         group5_db.get_factions_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
+
+
+@app.route('/factions/sentiment/key_figures')
+def get_key_figures_factions():
+    return jsonify(group5_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION)))
 
 
 # MIXED endpoints

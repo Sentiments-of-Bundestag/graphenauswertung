@@ -157,6 +157,21 @@ returns the page-ranked factions from group5 database
 ]
 ```
 
+### `factions/sentiment/key_figures`
+
+returns the calculated key figures of sentiments between all factions
+
+#### Sample Data
+```json
+{
+  "highest_sentiment": 16.04166666790843, 
+  "lowest_sentiment": 0.5, 
+  "sentiment_lower_quartile": 1.0, 
+  "sentiment_median": 2.5903602056205273, 
+  "sentiment_upper_quartile": 5.3949188850820065
+}
+```
+
 ### `/persons`
 
 returns all persons from group4 database
@@ -307,4 +322,25 @@ returns the page-ranked persons from group4 database
     "speakerId": "MDB-fd366231-9c25-416b-8604-e934d956e177"
   }
 ]
+```
+
+### `persons/sentiment/key_figures`
+
+returns the calculated key figures of sentiments between all persons
+
+#### Query Parameters
+
+| Name      | Description                                                                                    | Allowed Values                 |
+|-----------|------------------------------------------------------------------------------------------------|--------------------------------|
+| session   | Limits the messages used for key figures calculation to only those from the given session      | any sessionId from `/sessions` |
+
+#### Sample Data
+```json
+{
+  "highest_sentiment": 0.6166666666666667,
+  "lowest_sentiment": -1,
+  "sentiment_lower_quartile": 0.07142857142857142,
+  "sentiment_median": 0.5,
+  "sentiment_upper_quartile": 0.5
+}
 ```
