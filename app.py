@@ -35,10 +35,13 @@ def generate_cache_key():
     cache_key = request.path
     session = request.args.get(QUERY_PARAM_SESSION)
     sentiment_filter = request.args.get(QUERY_PARAM_SESSION)
+    person = request.args.get(QUERY_PARAM_PERSON)
     if sentiment_filter is not None:
         cache_key += ':' + sentiment_filter
     if session is not None:
         cache_key += ':' + session
+    if person is not None:
+        cache_key += ':' + person
     return cache_key
 
 
