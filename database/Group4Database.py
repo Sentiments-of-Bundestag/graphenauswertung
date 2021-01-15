@@ -15,7 +15,7 @@ REL_SENDER = 'SENDER'
 
 
 class Group4Database(Database):
-    def get_persons(self, sentiment_type="NEUTRAL", session_id=None):
+    def get_persons(self, sentiment_type="NEUTRAL", session_id=None, person_id=None):
         with self.driver.session() as session:
 
             where = ""
@@ -32,6 +32,13 @@ class Group4Database(Database):
                 else:
                     where = where + " AND "
                 where = where + "ses.sessionId = {0}".format(session_id)
+
+            if person_id is not None:
+                if len(where) == 0:
+                    where = "WHERE "
+                else:
+                    where = where + " AND "
+                where = where + "p.speakerId = '{0}'".format(person_id)
 
             query = "MATCH (p:{0})" \
                     "OPTIONAL MATCH (p)-[r:{1}]->(f:{2})" \
@@ -60,7 +67,7 @@ class Group4Database(Database):
                     })
             return arr
 
-    def get_messages(self, sentiment_type="NEUTRAL", session_id=None):
+    def get_messages(self, sentiment_type="NEUTRAL", session_id=None, person_id=None):
         with self.driver.session() as session:
             where = ""
             if sentiment_type == "POSITIVE":
@@ -75,9 +82,16 @@ class Group4Database(Database):
                     where = where + " AND "
                 where = where + "ses.sessionId = {0}".format(session_id)
 
+            if person_id is not None:
+                if len(where) == 0:
+                    where = "WHERE "
+                else:
+                    where = where + " AND "
+                where = where + "a.speakerId = '{0}' OR b.speakerId = '{0}'".format(person_id)
+
             query = "MATCH (a)-[s:{0}]->(m:{1})-[r:{2}]->(b) " \
-                    "MATCH (m)-[d:{4}]->(ses:{5})" \
-                    "{3}" \
+                    "MATCH (m)-[d:{4}]->(ses:{5}) " \
+                    "{3} " \
                     "RETURN m.sentiment AS sentiment, ses.sessionId as sessionId, " \
                     "a.speakerId AS sender, b.speakerId AS recipient" \
                 .format(REL_SENDER, NODE_COMMENTARY, REL_RECEIVER, where, REL_SESSION, NODE_SESSION)
@@ -85,10 +99,10 @@ class Group4Database(Database):
             messages = session.run(query)
             return messages.data()
 
-    def get_graph(self, sentiment_type="NEUTRAL", session_id=None):
+    def get_graph(self, sentiment_type="NEUTRAL", session_id=None, person_id=None):
         return {
-            'persons': self.get_persons(sentiment_type, session_id),
-            'messages': aggregate_messages(self.get_messages(sentiment_type, session_id))
+            'persons': self.get_persons(sentiment_type, session_id, person_id),
+            'messages': aggregate_messages(self.get_messages(sentiment_type, session_id, person_id))
         }
 
     def get_factions(self):
