@@ -45,14 +45,6 @@ def generate_cache_key():
     return cache_key
 
 
-def generate_cache_key_figures():
-    cache_key = request.path
-    session_id = request.args.get("session_id")
-    if session_id is not None:
-        cache_key += ':' + session_id
-    return cache_key
-
-
 # GROUP 4 endpoints
 @app.route('/persons')
 @cache.cached(make_cache_key=generate_cache_key)
@@ -83,7 +75,7 @@ def get_persons_ranked():
 
 
 @app.route('/persons/sentiment/key_figures')
-@cache.cached(make_cache_key=generate_cache_key_figures)
+@cache.cached(make_cache_key=generate_cache_key)
 def get_key_figures_persons():
     return jsonify(group4_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION)))
 
@@ -109,6 +101,7 @@ def get_factions_ranked():
 
 
 @app.route('/factions/sentiment/key_figures')
+@cache.cached(make_cache_key=generate_cache_key)
 def get_key_figures_factions():
     return jsonify(group5_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION)))
 
