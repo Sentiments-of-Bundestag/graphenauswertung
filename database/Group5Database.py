@@ -89,8 +89,10 @@ class Group5Database(Database):
         ranked = calculate_pagerank_eigenvector(factions, messages, field_name='factionId')
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
-    def get_where_clause(self, sentiment_type="NEUTRAL", session_id=None):
+    def get_where_clause(self, sentiment_type="NEUTRAL", session_id=None, faction_id=None):
         where = 'WHERE NOT sender.factionId = recipient.factionId '
+        if faction_id is not None:
+            where = where + "AND sender.factionId= '{0}' ".format(faction_id)
 
         if session_id is not None:
             where = where + " AND r.sessionId={0} ".format(session_id)
@@ -103,6 +105,31 @@ class Group5Database(Database):
 
         return where
 
+    def get_faction_proportions(self):
+        with self.driver.session() as session:
+            proportions = []
+            total_send_messages = 0
+            faction_ids = session.run('MATCH (n:Faction) RETURN n.factionId as factionId').data()
+            for id in faction_ids:
+                where = self.get_where_clause(faction_id=id['factionId'])
+                query = "MATCH (sender:{0})-[r:{1}]-(recipient:{0}) " \
+                        "{2}" \
+                        "RETURN sender.name as name, sender.size as size, sender.factionId as factionId, count(r) as proportion" \
+                    .format(NODE_FACTION, REL_COMMENTED, where)
+                proportion = session.run(query).data()[0]
+                proportions.append({
+                    'name': proportion['name'],
+                    'size': proportion['size'],
+                    'factionId': proportion['factionId'],
+                    'proportion': proportion['proportion']
+                })
+                total_send_messages = total_send_messages + proportion['proportion']
+                print(query)
+            print('total_send_messages', total_send_messages)
+            for element in proportions:
+                element['proportion'] = element['proportion'] / total_send_messages
+                # element['proportion'] = np.ceil(100 * element['proportion'] / total_send_messages)
+            return proportions
 
 def setup_group5_db():
     database_url = getenv('GROUP5_DATABASE_URL', 'bolt://localhost:7687')
