@@ -157,6 +157,28 @@ returns the page-ranked factions from group5 database
 ]
 ```
 
+### `/factions/proportions`
+
+returns speech proportions of each faction in percentage, regarding all sessions.
+
+#### Sample Data
+```json
+[
+  {
+    "factionId": "F000",
+    "name": "CDU/CSU",
+    "proportion": 24.664010828634297,
+    "size": 246
+  },
+  {
+    "factionId": "F001",
+    "name": "SPD",
+    "proportion": 20.437122713830245,
+    "size": 152
+  }
+]
+```
+
 ### `factions/sentiment/key_figures`
 
 returns the calculated key figures of sentiments between all factions

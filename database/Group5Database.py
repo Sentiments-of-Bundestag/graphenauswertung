@@ -114,7 +114,8 @@ class Group5Database(Database):
                 where = self.get_where_clause(faction_id=id['factionId'])
                 query = "MATCH (sender:{0})-[r:{1}]-(recipient:{0}) " \
                         "{2}" \
-                        "RETURN sender.name as name, sender.size as size, sender.factionId as factionId, count(r) as proportion" \
+                        "RETURN sender.name as name, sender.size as size, sender.factionId as factionId, " \
+                        "count(r) as proportion" \
                     .format(NODE_FACTION, REL_COMMENTED, where)
                 proportion = session.run(query).data()[0]
                 proportions.append({
@@ -127,8 +128,7 @@ class Group5Database(Database):
                 print(query)
             print('total_send_messages', total_send_messages)
             for element in proportions:
-                element['proportion'] = element['proportion'] / total_send_messages
-                # element['proportion'] = np.ceil(100 * element['proportion'] / total_send_messages)
+                element['proportion'] = (element['proportion'] / total_send_messages) * 100
             return proportions
 
 def setup_group5_db():
