@@ -125,11 +125,10 @@ class Group5Database(Database):
                     'proportion': proportion['proportion']
                 })
                 total_send_messages = total_send_messages + proportion['proportion']
-                print(query)
-            print('total_send_messages', total_send_messages)
             for element in proportions:
                 element['proportion'] = (element['proportion'] / total_send_messages) * 100
             return proportions
+
 
 def setup_group5_db():
     database_url = getenv('GROUP5_DATABASE_URL', 'bolt://localhost:7687')
