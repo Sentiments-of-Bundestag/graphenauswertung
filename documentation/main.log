@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.6.22)  4 JAN 2021 11:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.6.22)  27 JAN 2021 16:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,19 +6,20 @@ entering extended mode
 (./main.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 10 language(s) loaded.
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
-File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+(/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/bk12.clo
+File: bk12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
-\c@section=\count80
-\c@subsection=\count81
-\c@subsubsection=\count82
-\c@paragraph=\count83
-\c@subparagraph=\count84
-\c@figure=\count85
-\c@table=\count86
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -399,11 +400,11 @@ aphy)
 
 (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2018/02/14 3.18 Babel common definitions
-\babel@savecnt=\count87
+\babel@savecnt=\count88
 \U@D=\dimen103
 
 (/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def)
-\bbl@dirlevel=\count88
+\bbl@dirlevel=\count89
 )
 Package babel Info: Making " an active character on input line 139.
 )))
@@ -412,18 +413,18 @@ Package: csquotes 2018/02/11 v5.2c context-sensitive quotations (JAW)
 
 (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count89
+\etb@tempcnta=\count90
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-\csq@reset=\count90
-\csq@gtype=\count91
-\csq@glevel=\count92
-\csq@qlevel=\count93
-\csq@maxlvl=\count94
-\csq@tshold=\count95
+\csq@reset=\count91
+\csq@gtype=\count92
+\csq@glevel=\count93
+\csq@qlevel=\count94
+\csq@maxlvl=\count95
+\csq@tshold=\count96
 \csq@ltx@everypar=\toks17
 
 (/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.def
@@ -512,15 +513,15 @@ Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen104
-\Hy@linkcounter=\count96
-\Hy@pagecounter=\count97
+\Hy@linkcounter=\count97
+\Hy@pagecounter=\count98
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count98
+\Hy@SavedSpaceFactor=\count99
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -532,7 +533,7 @@ Package hyperref Info: Plain pages OFF on input line 4524.
 Package hyperref Info: Backreferencing OFF on input line 4529.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4762.
-\c@Hy@tempcnt=\count99
+\c@Hy@tempcnt=\count100
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
@@ -540,7 +541,7 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5115.
 \XeTeXLinkMargin=\dimen105
-\Fld@menulength=\count100
+\Fld@menulength=\count101
 \Field@Width=\dimen106
 \Fld@charsize=\dimen107
 Package hyperref Info: Hyper figures OFF on input line 6369.
@@ -552,16 +553,16 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6394.
 Package hyperref Info: PDF/A mode OFF on input line 6399.
 LaTeX Info: Redefining \ref on input line 6439.
 LaTeX Info: Redefining \pageref on input line 6443.
-\Hy@abspage=\count101
-\c@Item=\count102
-\c@Hfootnote=\count103
+\Hy@abspage=\count102
+\c@Item=\count103
+\c@Hfootnote=\count104
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
-\Fld@listcount=\count104
-\c@bookmark@seq@number=\count105
+\Fld@listcount=\count105
+\c@bookmark@seq@number=\count106
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
@@ -574,7 +575,7 @@ Package hyperref Info: Option `colorlinks' set `false' on input line 16.
 
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count106
+\c@float@type=\count107
 \float@exts=\toks18
 \float@box=\box26
 \@float@everytoks=\toks19
@@ -585,7 +586,7 @@ Package: biblatex 2017/12/19 v3.10 programmable bibliographies (PK/JW/AB)
 
 (/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count107
+\lrq@indent=\count108
 
 (/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
@@ -596,49 +597,49 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
 (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
 \@xs@message=\write3
-\integerpart=\count108
-\decimalpart=\count109
+\integerpart=\count109
+\decimalpart=\count110
 )
 Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 )
-\c@tabx@nest=\count110
-\c@listtotal=\count111
-\c@listcount=\count112
-\c@liststart=\count113
-\c@liststop=\count114
-\c@citecount=\count115
-\c@citetotal=\count116
-\c@multicitecount=\count117
-\c@multicitetotal=\count118
-\c@instcount=\count119
-\c@maxnames=\count120
-\c@minnames=\count121
-\c@maxitems=\count122
-\c@minitems=\count123
-\c@citecounter=\count124
-\c@savedcitecounter=\count125
-\c@uniquelist=\count126
-\c@uniquename=\count127
-\c@refsection=\count128
-\c@refsegment=\count129
-\c@maxextratitle=\count130
-\c@maxextratitleyear=\count131
-\c@maxextradate=\count132
-\c@maxextraalpha=\count133
-\c@abbrvpenalty=\count134
-\c@highnamepenalty=\count135
-\c@lownamepenalty=\count136
-\c@maxparens=\count137
-\c@parenlevel=\count138
-\blx@tempcnta=\count139
-\blx@tempcntb=\count140
-\blx@tempcntc=\count141
-\blx@maxsection=\count142
-\blx@maxsegment@0=\count143
-\blx@notetype=\count144
-\blx@parenlevel@text=\count145
-\blx@parenlevel@foot=\count146
-\blx@sectionciteorder@0=\count147
+\c@tabx@nest=\count111
+\c@listtotal=\count112
+\c@listcount=\count113
+\c@liststart=\count114
+\c@liststop=\count115
+\c@citecount=\count116
+\c@citetotal=\count117
+\c@multicitecount=\count118
+\c@multicitetotal=\count119
+\c@instcount=\count120
+\c@maxnames=\count121
+\c@minnames=\count122
+\c@maxitems=\count123
+\c@minitems=\count124
+\c@citecounter=\count125
+\c@savedcitecounter=\count126
+\c@uniquelist=\count127
+\c@uniquename=\count128
+\c@refsection=\count129
+\c@refsegment=\count130
+\c@maxextratitle=\count131
+\c@maxextratitleyear=\count132
+\c@maxextradate=\count133
+\c@maxextraalpha=\count134
+\c@abbrvpenalty=\count135
+\c@highnamepenalty=\count136
+\c@lownamepenalty=\count137
+\c@maxparens=\count138
+\c@parenlevel=\count139
+\blx@tempcnta=\count140
+\blx@tempcntb=\count141
+\blx@tempcntc=\count142
+\blx@maxsection=\count143
+\blx@maxsegment@0=\count144
+\blx@notetype=\count145
+\blx@parenlevel@text=\count146
+\blx@parenlevel@foot=\count147
+\blx@sectionciteorder@0=\count148
 \labelnumberwidth=\skip44
 \labelalphawidth=\skip45
 \biblabelsep=\skip46
@@ -649,83 +650,83 @@ Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 \bibhang=\skip51
 \blx@bcfin=\read1
 \blx@bcfout=\write4
-\c@mincomprange=\count148
-\c@maxcomprange=\count149
-\c@mincompwidth=\count150
+\c@mincomprange=\count149
+\c@maxcomprange=\count150
+\c@mincompwidth=\count151
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def)
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count151
-\c@savedafterword=\count152
-\c@annotator=\count153
-\c@savedannotator=\count154
-\c@author=\count155
-\c@savedauthor=\count156
-\c@bookauthor=\count157
-\c@savedbookauthor=\count158
-\c@commentator=\count159
-\c@savedcommentator=\count160
-\c@editor=\count161
-\c@savededitor=\count162
-\c@editora=\count163
-\c@savededitora=\count164
-\c@editorb=\count165
-\c@savededitorb=\count166
-\c@editorc=\count167
-\c@savededitorc=\count168
-\c@foreword=\count169
-\c@savedforeword=\count170
-\c@holder=\count171
-\c@savedholder=\count172
-\c@introduction=\count173
-\c@savedintroduction=\count174
-\c@namea=\count175
-\c@savednamea=\count176
-\c@nameb=\count177
-\c@savednameb=\count178
-\c@namec=\count179
-\c@savednamec=\count180
-\c@translator=\count181
-\c@savedtranslator=\count182
-\c@shortauthor=\count183
-\c@savedshortauthor=\count184
-\c@shorteditor=\count185
-\c@savedshorteditor=\count186
-\c@labelname=\count187
-\c@savedlabelname=\count188
-\c@institution=\count189
-\c@savedinstitution=\count190
-\c@lista=\count191
-\c@savedlista=\count192
-\c@listb=\count193
-\c@savedlistb=\count194
-\c@listc=\count195
-\c@savedlistc=\count196
-\c@listd=\count197
-\c@savedlistd=\count198
-\c@liste=\count199
-\c@savedliste=\count266
-\c@listf=\count267
-\c@savedlistf=\count268
-\c@location=\count269
-\c@savedlocation=\count270
-\c@organization=\count271
-\c@savedorganization=\count272
-\c@origlocation=\count273
-\c@savedoriglocation=\count274
-\c@origpublisher=\count275
-\c@savedorigpublisher=\count276
-\c@publisher=\count277
-\c@savedpublisher=\count278
-\c@language=\count279
-\c@savedlanguage=\count280
-\c@origlanguage=\count281
-\c@savedoriglanguage=\count282
-\c@pageref=\count283
-\c@savedpageref=\count284
+\c@afterword=\count152
+\c@savedafterword=\count153
+\c@annotator=\count154
+\c@savedannotator=\count155
+\c@author=\count156
+\c@savedauthor=\count157
+\c@bookauthor=\count158
+\c@savedbookauthor=\count159
+\c@commentator=\count160
+\c@savedcommentator=\count161
+\c@editor=\count162
+\c@savededitor=\count163
+\c@editora=\count164
+\c@savededitora=\count165
+\c@editorb=\count166
+\c@savededitorb=\count167
+\c@editorc=\count168
+\c@savededitorc=\count169
+\c@foreword=\count170
+\c@savedforeword=\count171
+\c@holder=\count172
+\c@savedholder=\count173
+\c@introduction=\count174
+\c@savedintroduction=\count175
+\c@namea=\count176
+\c@savednamea=\count177
+\c@nameb=\count178
+\c@savednameb=\count179
+\c@namec=\count180
+\c@savednamec=\count181
+\c@translator=\count182
+\c@savedtranslator=\count183
+\c@shortauthor=\count184
+\c@savedshortauthor=\count185
+\c@shorteditor=\count186
+\c@savedshorteditor=\count187
+\c@labelname=\count188
+\c@savedlabelname=\count189
+\c@institution=\count190
+\c@savedinstitution=\count191
+\c@lista=\count192
+\c@savedlista=\count193
+\c@listb=\count194
+\c@savedlistb=\count195
+\c@listc=\count196
+\c@savedlistc=\count197
+\c@listd=\count198
+\c@savedlistd=\count199
+\c@liste=\count266
+\c@savedliste=\count267
+\c@listf=\count268
+\c@savedlistf=\count269
+\c@location=\count270
+\c@savedlocation=\count271
+\c@organization=\count272
+\c@savedorganization=\count273
+\c@origlocation=\count274
+\c@savedoriglocation=\count275
+\c@origpublisher=\count276
+\c@savedorigpublisher=\count277
+\c@publisher=\count278
+\c@savedpublisher=\count279
+\c@language=\count280
+\c@savedlanguage=\count281
+\c@origlanguage=\count282
+\c@savedoriglanguage=\count283
+\c@pageref=\count284
+\c@savedpageref=\count285
 \shorthandwidth=\skip52
 \shortjournalwidth=\skip53
 \shortserieswidth=\skip54
@@ -743,13 +744,13 @@ Package biblatex Info: ... file 'biblatex.def' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2017/12/19 v3.10 biblatex compatibility (PK/JW/AB)
-\c@textcitecount=\count285
-\c@textcitetotal=\count286
-\c@textcitemaxnames=\count287
-\c@biburlnumpenalty=\count288
-\c@biburlucpenalty=\count289
-\c@biburllcpenalty=\count290
-\c@smartand=\count291
+\c@textcitecount=\count286
+\c@textcitetotal=\count287
+\c@textcitemaxnames=\count288
+\c@biburlnumpenalty=\count289
+\c@biburlucpenalty=\count290
+\c@biburllcpenalty=\count291
+\c@smartand=\count292
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
@@ -761,8 +762,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2017/12/19 v3.10 biblatex bibliography style (PK/JW/AB)
-\c@bbx:relatedcount=\count292
-\c@bbx:relatedtotal=\count293
+\c@bbx:relatedcount=\count293
+\c@bbx:relatedtotal=\count294
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
@@ -798,7 +799,7 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 \XKV@toks=\toks20
 \XKV@tempa@toks=\toks21
 )
-\XKV@depth=\count294
+\XKV@depth=\count295
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/mfirstuc/mfirstuc.sty
@@ -835,13 +836,13 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count295
+\inf@bad=\count296
 LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count296
-\leftroot@=\count297
+\uproot@=\count297
+\leftroot@=\count298
 LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count298
-\DOTSCASE@=\count299
+\classnum@=\count299
+\DOTSCASE@=\count300
 LaTeX Info: Redefining \ldots on input line 472.
 LaTeX Info: Redefining \dots on input line 475.
 LaTeX Info: Redefining \cdots on input line 596.
@@ -850,15 +851,15 @@ LaTeX Info: Redefining \cdots on input line 596.
 \big@size=\dimen110
 LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count300
-\c@MaxMatrixCols=\count301
+\macc@depth=\count301
+\c@MaxMatrixCols=\count302
 \dotsspace@=\muskip11
-\c@parentequation=\count302
-\dspbrk@lvl=\count303
+\c@parentequation=\count303
+\dspbrk@lvl=\count304
 \tag@help=\toks25
-\row@=\count304
-\column@=\count305
-\maxfields@=\count306
+\row@=\count305
+\column@=\count306
+\maxfields@=\count307
 \andhelp@=\toks26
 \eqnshift@=\dimen111
 \alignsep@=\dimen112
@@ -875,7 +876,7 @@ LaTeX Info: Redefining \] on input line 2818.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/substr/substr.sty
 Package: substr 2009/10/20 v1.2 Handle substrings
-\c@su@anzahl=\count307
+\c@su@anzahl=\count308
 )
 (/usr/share/texlive/texmf-dist/tex/latex/datatool/datatool-fp.sty
 Package: datatool-fp 2017/11/12 v2.29 (NLCT)
@@ -886,19 +887,19 @@ Package: fp 1995/04/02
 `Fixed Point Package', Version 0.8, April 2, 1995 (C) Michael Mehlich
 (/usr/share/texlive/texmf-dist/tex/latex/fp/defpattern.sty
 Package: defpattern 1994/10/12
-\actioncount=\count308
+\actioncount=\count309
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fp/fp-basic.sty
 Package: fp-basic 1996/05/13
-\FP@xs=\count309
-\FP@xia=\count310
-\FP@xib=\count311
-\FP@xfa=\count312
-\FP@xfb=\count313
-\FP@rega=\count314
-\FP@regb=\count315
-\FP@regs=\count316
-\FP@times=\count317
+\FP@xs=\count310
+\FP@xia=\count311
+\FP@xib=\count312
+\FP@xfa=\count313
+\FP@xfb=\count314
+\FP@rega=\count315
+\FP@regb=\count316
+\FP@regs=\count317
+\FP@times=\count318
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fp/fp-addons.sty
 Package: fp-addons 1995/03/15
@@ -917,7 +918,7 @@ Package: fp-pas 1994/08/29
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fp/fp-random.sty
 Package: fp-random 1995/02/23
-\FPseed=\count318
+\FPseed=\count319
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fp/fp-eqn.sty
 Package: fp-eqn 1995/04/03
@@ -929,14 +930,14 @@ Package: fp-upn 1996/10/21
 Package: fp-eval 1995/04/03
 )))
 \@dtl@toks=\toks29
-\@dtl@tmpcount=\count319
+\@dtl@tmpcount=\count320
 \dtl@tmplength=\skip61
-\dtl@sortresult=\count320
-\@dtl@numgrpsepcount=\count321
-\@dtl@datatype=\count322
-\dtl@codeA=\count323
-\dtl@codeB=\count324
-\@dtl@foreach@level=\count325
+\dtl@sortresult=\count321
+\@dtl@numgrpsepcount=\count322
+\@dtl@datatype=\count323
+\dtl@codeA=\count324
+\dtl@codeB=\count325
+\@dtl@foreach@level=\count326
 )
 (/usr/share/texlive/texmf-dist/tex/latex/glossaries/base/glossaries-compatible-
 307.sty
@@ -952,7 +953,7 @@ Package: translator 2018/01/04 v1.12 Easy translation of strings in LaTeX
 f
 File: glossaries-german.ldf 2014/11/23 v1.0
 )
-\gls@level=\count326
+\gls@level=\count327
 \@gls@tmpb=\toks30
 \gls@tmplen=\skip62
 \glskeylisttok=\toks31
@@ -975,16 +976,16 @@ Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
 \LTright=\skip65
 \LTpre=\skip66
 \LTpost=\skip67
-\LTchunksize=\count327
+\LTchunksize=\count328
 \LTcapwidth=\dimen117
 \LT@head=\box30
 \LT@firsthead=\box31
 \LT@foot=\box32
 \LT@lastfoot=\box33
-\LT@cols=\count328
-\LT@rows=\count329
-\c@LT@tables=\count330
-\c@LT@chunks=\count331
+\LT@cols=\count329
+\LT@rows=\count330
+\c@LT@tables=\count331
+\c@LT@chunks=\count332
 \LT@p@ftn=\toks35
 )
 \glsdescwidth=\skip68
@@ -995,7 +996,7 @@ Package: glossary-super 2017/11/14 v4.35 (NLCT)
 
 (/usr/share/texlive/texmf-dist/tex/latex/supertabular/supertabular.sty
 Package: supertabular 2004/02/20 v4.1e the supertabular environment
-\c@tracingst=\count332
+\c@tracingst=\count333
 \ST@wd=\dimen118
 \ST@rightskip=\skip70
 \ST@leftskip=\skip71
@@ -1025,10 +1026,10 @@ Package glossaries Info: Writing glossary file main.glo on input line 25.
 
 (/usr/share/texlive/texmf-dist/tex/latex/tocbibind/tocbibind.sty
 Package: tocbibind 2010/10/13 v1.5k extra ToC listings
-Package tocbibind Info: The document has section divisions on input line 50.
+Package tocbibind Info: The document has chapter divisions on input line 50.
 
 
-Package tocbibind Note: Using section or other style headings.
+Package tocbibind Note: Using chapter style headings, unless overridden.
 
 ) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
@@ -1055,10 +1056,10 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfigbottomskip=\skip76
 \subfigcapmargin=\dimen132
 \subfiglabelskip=\skip77
-\c@subfigure=\count333
-\c@lofdepth=\count334
-\c@subtable=\count335
-\c@lotdepth=\count336
+\c@subfigure=\count334
+\c@lofdepth=\count335
+\c@subtable=\count336
+\c@lotdepth=\count337
 
 ****************************************
 * Local config file subfigure.cfg used *
@@ -1070,7 +1071,7 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 (/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen133
 \WF@size=\dimen134
-\c@WF@wrappedlines=\count337
+\c@WF@wrappedlines=\count338
 \WF@box=\box35
 \WF@everypar=\toks36
 Package: wrapfig 2003/01/31  v 3.6
@@ -1091,10 +1092,10 @@ Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/lcg/lcg.sty
 Package: lcg 2013/08/09 v1.3 generating random numbers
-\f@rst=\count338
-\l@st=\count339
-\cr@nd=\count340
-\c@rand=\count341
+\f@rst=\count339
+\l@st=\count340
+\cr@nd=\count341
+\c@rand=\count342
 
 Smallest possible random number: 0
 Largest possible random number: 9
@@ -1102,7 +1103,7 @@ The pseudo random numbers will be stored in the LaTeX counter `rand'
 ) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
 \multirow@colwidth=\skip83
-\multirow@cntb=\count342
+\multirow@cntb=\count343
 \multirow@dima=\skip84
 \bigstrutjot=\dimen137
 )
@@ -1114,15 +1115,15 @@ Package: xifthen 2015/11/05 v1.4.0 Extended ifthen features
 
 (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count343
-\calc@Bcount=\count344
+\calc@Acount=\count344
+\calc@Bcount=\count345
 \calc@Adimen=\dimen138
 \calc@Bdimen=\dimen139
 \calc@Askip=\skip85
 \calc@Bskip=\skip86
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count345
+\calc@Ccount=\count346
 \calc@Cskip=\skip87
 )
 (/usr/share/texlive/texmf-dist/tex/latex/ifmtarg/ifmtarg.sty
@@ -1166,16 +1167,16 @@ File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count346
+\scratchcounter=\count347
 \scratchdimen=\dimen140
 \scratchbox=\box36
-\nofMPsegments=\count347
-\nofMParguments=\count348
+\nofMPsegments=\count348
+\nofMParguments=\count349
 \everyMPshowfont=\toks39
-\MPscratchCnt=\count349
+\MPscratchCnt=\count350
 \MPscratchDim=\dimen141
-\MPnumerator=\count350
-\makeMPintoPDFobject=\count351
+\MPnumerator=\count351
+\makeMPintoPDFobject=\count352
 \everyMPtoPDFconversion=\toks40
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -1203,7 +1204,7 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count352
+\c@section@level=\count353
 )
 LaTeX Info: Redefining \ref on input line 86.
 LaTeX Info: Redefining \pageref on input line 86.
@@ -1246,34 +1247,32 @@ Package babel Info: Redefining german shorthand "~
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./logos/bundestag.png>] (.
 /main.toc
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 10.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 8.
 
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 10.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 8.
 
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 10.
-
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 8.
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 10.
-
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 8.
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 10.
+(Font)              <12> on input line 8.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 10.
+(Font)              <8> on input line 8.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 10.
+(Font)              <6> on input line 8.
 )
 \tf@toc=\write8
 \openout8 = `main.toc'.
@@ -1290,7 +1289,24 @@ Package babel Info: Redefining german shorthand "|
 (babel)             in language  on input line 106.
 Package babel Info: Redefining german shorthand "~
 (babel)             in language  on input line 106.
- [1]
+ [1
+
+]
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 108.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 108.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 108.
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 108.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 108.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 108.
+ [2
+
+]
 Package babel Info: Redefining german shorthand "f
 (babel)             in language  on input line 108.
 Package babel Info: Redefining german shorthand "|
@@ -1302,37 +1318,60 @@ Package babel Info: Redefining german shorthand "~
 \openout9 = `main.lof'.
 
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 110.
+(babel)             in language  on input line 109.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 110.
+(babel)             in language  on input line 109.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 110.
- (./main.lot)
+(babel)             in language  on input line 109.
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 109.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 109.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 109.
+ [3]
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 111.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 111.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 111.
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 111.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 111.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 111.
+ [4
+
+]
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 111.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 111.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 111.
+
+(./main.lot)
 \tf@lot=\write10
 \openout10 = `main.lot'.
 
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 112.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 112.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 112.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 112.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 112.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 115.
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.115 ...hapters/07-Graphauswertung/01-Einleitung}
-                                                   [1]
+(babel)             in language  on input line 112.
+ [5]
 \openout2 = `chapters/07-Graphauswertung/01-Einleitung.aux'.
 
-
-(./chapters/07-Graphauswertung/01-Einleitung.tex
+ (./chapters/07-Graphauswertung/01-Einleitung.tex
 Package babel Info: Redefining german shorthand "f
 (babel)             in language  on input line 1.
 Package babel Info: Redefining german shorthand "|
@@ -1359,18 +1398,23 @@ Package babel Info: Redefining german shorthand "~
 (babel)             in language  on input line 6.
 )
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 117.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 117.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 117.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 117.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 115.
+(babel)             in language  on input line 117.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 115.
- [2
+(babel)             in language  on input line 117.
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.117 ...hapters/07-Graphauswertung/01-Einleitung}
+                                                   [1
 
 ]
 \openout2 = `chapters/07-Graphauswertung/02-Grundlagen.aux'.
@@ -1397,18 +1441,18 @@ Package babel Info: Redefining german shorthand "~
 (babel)             in language  on input line 6.
 )
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 116.
+(babel)             in language  on input line 118.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 116.
+(babel)             in language  on input line 118.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 116.
+(babel)             in language  on input line 118.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 116.
+(babel)             in language  on input line 118.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 116.
+(babel)             in language  on input line 118.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 116.
- [3
+(babel)             in language  on input line 118.
+ [2
 
 
 ]
@@ -1436,18 +1480,18 @@ Package babel Info: Redefining german shorthand "~
 (babel)             in language  on input line 5.
 )
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 117.
+(babel)             in language  on input line 119.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 117.
+(babel)             in language  on input line 119.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 117.
+(babel)             in language  on input line 119.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 117.
+(babel)             in language  on input line 119.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 117.
+(babel)             in language  on input line 119.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 117.
- [4
+(babel)             in language  on input line 119.
+ [3
 
 
 ]
@@ -1463,18 +1507,18 @@ Package babel Info: Redefining german shorthand "~
 (babel)             in language  on input line 1.
 )
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 118.
+(babel)             in language  on input line 120.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 118.
+(babel)             in language  on input line 120.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 118.
+(babel)             in language  on input line 120.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 118.
+(babel)             in language  on input line 120.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 118.
+(babel)             in language  on input line 120.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 118.
- [5
+(babel)             in language  on input line 120.
+ [4
 
 
 ]
@@ -1508,88 +1552,88 @@ Package babel Info: Redefining german shorthand "~
 (babel)             in language  on input line 9.
 )
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 119.
+(babel)             in language  on input line 121.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 119.
+(babel)             in language  on input line 121.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 119.
+(babel)             in language  on input line 121.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 119.
+(babel)             in language  on input line 121.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 119.
+(babel)             in language  on input line 121.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 119.
- [6
+(babel)             in language  on input line 121.
+ [5
 
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 124.
+LaTeX Warning: Empty bibliography on input line 126.
 
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 125.
+(babel)             in language  on input line 127.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 125.
+(babel)             in language  on input line 127.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 125.
+(babel)             in language  on input line 127.
 No file main.gls.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 128.
+(babel)             in language  on input line 131.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 128.
+(babel)             in language  on input line 131.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 128.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 130.
+(babel)             in language  on input line 131.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 130.
+(babel)             in language  on input line 132.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 130.
+(babel)             in language  on input line 132.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 130.
+(babel)             in language  on input line 132.
 Package babel Info: Redefining german shorthand "f
-(babel)             in language  on input line 130.
+(babel)             in language  on input line 132.
 Package babel Info: Redefining german shorthand "|
-(babel)             in language  on input line 130.
+(babel)             in language  on input line 132.
 Package babel Info: Redefining german shorthand "~
-(babel)             in language  on input line 130.
+(babel)             in language  on input line 132.
 pdfTeX warning (ext4): destination with the same identifier (name{page.i}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.130 \end{document}
-                     [1
+l.132 \newpage
+               [1
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 130.
- (./main.aux
-(./chapters/07-Graphauswertung/01-Einleitung.aux)
-(./chapters/07-Graphauswertung/02-Grundlagen.aux)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 134.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 134.
+ (./main.aux (./chapters/07-Graphauswertung/01-Einleitung.aux) (./chapters/07-G
+raphauswertung/02-Grundlagen.aux)
 (./chapters/07-Graphauswertung/03-Anforderungen-Konzept.aux)
 (./chapters/07-Graphauswertung/04-Implementierung.aux)
 (./chapters/07-Graphauswertung/05-Zusammenfassung-Ausblick.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 130.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 130.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 134.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 134.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: DA793B2AB4AB1DFD949390E63083E596;1134.
+(rerunfilecheck)             Checksum: EC9D391533A5CAD9956574C969BC17CF;1238.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 20633 strings out of 494830
- 347608 string characters out of 6177367
- 871085 words of memory out of 5000000
- 23565 multiletter control sequences out of 15000+600000
- 42542 words of font info for 35 fonts, out of 8000000 for 9000
+ 20655 strings out of 494830
+ 347881 string characters out of 6177367
+ 871581 words of memory out of 5000000
+ 23583 multiletter control sequences out of 15000+600000
+ 51585 words of font info for 38 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
- 45i,6n,44p,1985b,1720s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 45i,6n,44p,1985b,1722s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texmf/fonts/type1/
 public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb></usr/
-share/texmf/fonts/type1/public/lm/lmr12.pfb>
-Output written on main.pdf (9 pages, 143048 bytes).
+share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/publi
+c/lm/lmro12.pfb>
+Output written on main.pdf (12 pages, 170674 bytes).
 PDF statistics:
- 164 PDF objects out of 1000 (max. 8388607)
- 146 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
+ 181 PDF objects out of 1000 (max. 8388607)
+ 159 compressed objects within 2 object streams
+ 31 named destinations out of 1000 (max. 500000)
  158 words of extra memory for PDF output out of 10000 (max. 10000000)
 

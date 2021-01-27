@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,twoside]{article}
+\documentclass[a4paper,12pt,twoside]{book}
 
 % standard incantations
 \usepackage[T1]{fontenc}
@@ -106,8 +106,10 @@
 \newpage
 
 \listoffigures
+\newpage
 
 \listoftables
+\newpage
 
 \pagenumbering{arabic}
 %\setcounter{page}{6}
@@ -122,9 +124,11 @@
 %\setcounter{page}{6}
 
 \printbibliography[title={Literaturverzeichnis}]
-\addcontentsline{toc}{section}{Literaturverzeichnis}
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\newpage
 
 \printglossaries
-\addcontentsline{toc}{section}{Glossar}
+\addcontentsline{toc}{chapter}{Glossar}
+\newpage
 
 \end{document}
