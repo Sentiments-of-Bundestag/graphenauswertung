@@ -34,7 +34,6 @@ class Group5Database(Database):
         }
 
     def get_key_figures(self, session_id):
-        factions = self.get_factions()
         sentiments = []
         highest_sentiment = None
         lowest_sentiment = None
@@ -42,14 +41,10 @@ class Group5Database(Database):
         sentiment_lower_quartile = None
         sentiment_upper_quartile = None
 
-        for faction in factions:
-            for other in factions:
-                faction_name = faction['name']
-                other_name = other['name']
-                if faction_name is not other_name:
-                    message = self.get_message(faction_name, other_name, "NEUTRAL", session_id)
-                    if message['count'] > 0:
-                        sentiments.append(message['sentiment'])
+        messages = self.get_plain_messages(session_id)
+        for message in messages:
+            if message['sentiment'] is not None:
+                sentiments.append(message['sentiment'])
 
         if len(sentiments) > 0:
             highest_sentiment = sorted(sentiments, reverse=True)
@@ -68,6 +63,18 @@ class Group5Database(Database):
             'sentiment_lower_quartile': sentiment_lower_quartile,
             'sentiment_upper_quartile': sentiment_upper_quartile
         }
+
+    def get_plain_messages(self, session_id=None):
+
+        where = ''
+        if session_id is not None:
+            where = 'WHERE r.sessionId={0}'.format(session_id)
+
+        with self.driver.session() as session:
+            query = 'MATCH p=(sender)-[r:{0}]->(recipient) ' \
+                    '{1} ' \
+                    'RETURN r.polarity as sentiment'.format(REL_COMMENTED, where)
+            return session.run(query).data()
 
     def get_messages(self, sentiment_type="NEUTRAL", session_id=None):
         where = self.get_where_clause(sentiment_type, session_id)
