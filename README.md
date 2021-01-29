@@ -91,6 +91,7 @@ The `sentiment` is the sum of the sentiments of all messages that were aggregate
 |---------|--------------------------------------------------------------------|------------------------------|
 | filter  | Limits the messages to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
 | session | Limits the messages to only those from the given session           | any sessionId from `/sessions` |
+| exclude_applause | Filters out all messages which are flagged as applause    | `true`                       |
 
 #### Sample Data
 ```json
@@ -138,6 +139,7 @@ returns the page-ranked factions from group5 database
 | filter  | Limits the messages used for page rank calculation to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
 | session | Limits the messages used for page rank calculation to only those from the given session           | any sessionId from `/sessions` |
 | reverse | Uses the ''Reverse PageRank'' for page rank calculation                                           | `true`                       |
+| exclude_applause | Filters out all messages which are flagged as applause                                   | `true`                       |
 
 
 #### Sample Data
@@ -165,6 +167,7 @@ returns speech proportions of each faction in percentage, regarding all sessions
 | Name    | Description                                                                                       | Allowed Values                 |
 |---------|---------------------------------------------------------------------------------------------------|--------------------------------|
 | session | Limits the messages used for proportion calculation to only those from the given session          | any sessionId from `/sessions` |
+| exclude_applause | Filters out all messages which are flagged as applause                                   | `true`                       |
 
 #### Sample Data
 ```json
@@ -187,6 +190,11 @@ returns speech proportions of each faction in percentage, regarding all sessions
 ### `factions/sentiment/key_figures`
 
 returns the calculated key figures of sentiments between all factions
+
+| Name    | Description                                                                                       | Allowed Values                 |
+|---------|---------------------------------------------------------------------------------------------------|--------------------------------|
+| session | Limits the messages used for key figures calculation to only those from the given session         | any sessionId from `/sessions` |
+| exclude_applause | Filters out all messages which are flagged as applause                                   | `true`                       |
 
 #### Sample Data
 ```json
@@ -245,6 +253,8 @@ returns all messages from group4 database. The messages are not aggregated in an
 | filter  | Limits the messages to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`         |
 | session | Limits the messages to only those from the given session           | any sessionId from `/sessions` |
 | person  | Limits the messages to only those from the given person            | any speakerId from `/persons`  |
+| exclude_applause | Filters out all messages which are flagged as applause    | `true`                       |
+
 #### Sample Data
 ```json
 [
@@ -277,6 +287,8 @@ The `sentiment` is the sum of the sentiments of all messages that were aggregate
 | filter  | Limits the messages to only those with the given type of sentiment and the persons to only those connected to messages with the given type of sentiment | `POSITIVE`, `NEGATIVE`         |
 | session | Limits the messages to only those from the given session the persons to only those connected to messages in the given session                           | any sessionId from `/sessions` |
 | person  | Limits the messages to only those from the given person and the persons information to only those connected to the given person                         | any speakerId from `/persons`  |
+| exclude_applause | Filters out all messages which are flagged as applause                                                                                         | `true`                       |
+
 #### Sample Data
 ```json
 {
@@ -328,6 +340,7 @@ returns the page-ranked persons from group4 database
 | filter  | Limits the messages used for page rank calculation to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
 | session | Limits the messages used for page rank calculation to only those from the given session           | any sessionId from `/sessions` |
 | reverse | Uses the ''Reverse PageRank'' for page rank calculation                                           | `true`                       |
+| exclude_applause | Filters out all messages which are flagged as applause                                   | `true`                       |
 
 #### Sample Data
 ```json
@@ -362,6 +375,8 @@ returns the calculated key figures of sentiments between all persons
 | Name      | Description                                                                                    | Allowed Values                 |
 |-----------|------------------------------------------------------------------------------------------------|--------------------------------|
 | session   | Limits the messages used for key figures calculation to only those from the given session      | any sessionId from `/sessions` |
+| exclude_applause | Filters out all messages which are flagged as applause                                  | `true`                       |
+
 
 #### Sample Data
 ```json

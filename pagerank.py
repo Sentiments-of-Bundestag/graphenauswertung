@@ -17,6 +17,9 @@ def aggregate_messages(messages):
         else:
             result.append({'sender': message['sender'], 'recipient': message['recipient'], 'count': 1, 'sentiment': message['sentiment'], 'sessionIds': [message['sessionId']]})
 
+    for m in result:
+        m['sentiment'] = m['sentiment'] / m['count']
+
     return result
 
 
