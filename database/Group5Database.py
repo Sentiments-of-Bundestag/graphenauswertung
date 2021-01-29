@@ -90,10 +90,10 @@ class Group5Database(Database):
 
             return session.run(query).data()
 
-    def get_factions_ranked(self, sentiment_type, session_id=None):
+    def get_factions_ranked(self, sentiment_type, session_id=None, reverse=None):
         factions = self.get_factions()
         messages = self.get_messages(sentiment_type, session_id)
-        ranked = calculate_pagerank_eigenvector(factions, messages, field_name='factionId')
+        ranked = calculate_pagerank_eigenvector(factions, messages, field_name='factionId', reverse=reverse)
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
     def get_where_clause(self, sentiment_type="NEUTRAL", session_id=None, faction_id=None):
