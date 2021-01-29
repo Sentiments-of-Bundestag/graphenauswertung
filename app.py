@@ -76,7 +76,7 @@ def get_persons_graph():
 def get_persons_ranked():
     return jsonify(
         group4_db.get_persons_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
-                                     request.args.get(QUERY_PARAM_REVERSE)))
+                                     request.args.get(QUERY_PARAM_REVERSE) == 'true'))
 
 
 @app.route('/persons/sentiment/key_figures')
@@ -103,7 +103,7 @@ def get_faction_graph():
 def get_factions_ranked():
     return jsonify(
         group5_db.get_factions_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
-                                      request.args.get(QUERY_PARAM_REVERSE)))
+                                      request.args.get(QUERY_PARAM_REVERSE) == 'true'))
 
 
 @app.route('/factions/sentiment/key_figures')
