@@ -161,6 +161,10 @@ returns the page-ranked factions from group5 database
 
 returns speech proportions of each faction in percentage, regarding all sessions.
 
+| Name    | Description                                                                                       | Allowed Values                 |
+|---------|---------------------------------------------------------------------------------------------------|--------------------------------|
+| session | Limits the messages used for proportion calculation to only those from the given session          | any sessionId from `/sessions` |
+
 #### Sample Data
 ```json
 [

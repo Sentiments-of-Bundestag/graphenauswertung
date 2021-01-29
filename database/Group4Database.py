@@ -156,8 +156,9 @@ class Group4Database(Database):
 
     def get_sessions(self):
         with self.driver.session() as session:
-            query = "MATCH (s:{0}) return s.sessionId as sessionId, s.legislative_period as legislativePeriod, " \
-                    "s.startDateTime as startDateTime, s.endDateTime as endDateTime".format(NODE_SESSION)
+            query = "MATCH (s:{0}) RETURN s.sessionId as sessionId, s.legislative_period as legislativePeriod, " \
+                    "s.startDateTime as startDateTime, s.endDateTime as endDateTime ORDER BY s.startDateTime"\
+                .format(NODE_SESSION)
             sessions = session.run(query).data()
             return sessions
 

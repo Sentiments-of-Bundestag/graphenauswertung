@@ -112,13 +112,13 @@ class Group5Database(Database):
 
         return where
 
-    def get_faction_proportions(self):
+    def get_faction_proportions(self, session_id=None):
         with self.driver.session() as session:
             proportions = []
             total_send_messages = 0
             faction_ids = session.run('MATCH (n:Faction) RETURN n.factionId as factionId').data()
             for id in faction_ids:
-                where = self.get_where_clause(faction_id=id['factionId'])
+                where = self.get_where_clause(session_id=session_id, faction_id=id['factionId'])
                 query = "MATCH (sender:{0})-[r:{1}]-(recipient:{0}) " \
                         "{2}" \
                         "RETURN sender.name as name, sender.size as size, sender.factionId as factionId, " \

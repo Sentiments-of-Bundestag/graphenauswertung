@@ -109,7 +109,7 @@ def get_key_figures_factions():
 @app.route('/factions/proportions')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_faction_proportions():
-    return jsonify(group5_db.get_faction_proportions())
+    return jsonify(group5_db.get_faction_proportions(request.args.get(QUERY_PARAM_SESSION)))
 
 
 # MIXED endpoints
