@@ -137,6 +137,7 @@ returns the page-ranked factions from group5 database
 |---------|---------------------------------------------------------------------------------------------------|------------------------------|
 | filter  | Limits the messages used for page rank calculation to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
 | session | Limits the messages used for page rank calculation to only those from the given session           | any sessionId from `/sessions` |
+| reverse | Uses the ''Reverse PageRank'' for page rank calculation                                           | `True`                       |
 
 
 #### Sample Data
@@ -326,6 +327,7 @@ returns the page-ranked persons from group4 database
 |---------|---------------------------------------------------------------------------------------------------|------------------------------|
 | filter  | Limits the messages used for page rank calculation to only those with the given type of sentiment | `POSITIVE`, `NEGATIVE`       |
 | session | Limits the messages used for page rank calculation to only those from the given session           | any sessionId from `/sessions` |
+| reverse | Uses the ''Reverse PageRank'' for page rank calculation                                           | `True`                       |
 
 #### Sample Data
 ```json

@@ -110,10 +110,11 @@ class Group4Database(Database):
             query = "MATCH (f:{}) return f.factionId as factionId, f.name as name".format(NODE_FACTION)
             return session.run(query).data()
 
-    def get_persons_ranked(self, sentiment_type, session_id=None):
+    def get_persons_ranked(self, sentiment_type, session_id=None, reverse=None):
         persons = self.get_persons()
         messages = self.get_messages(sentiment_type, session_id)
-        ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages))
+        actual_reverse = True if reverse == 'True' else False
+        ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages), reverse=actual_reverse)
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
     def get_key_figures(self, session_id):

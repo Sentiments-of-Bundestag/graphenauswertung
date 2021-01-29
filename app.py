@@ -29,6 +29,7 @@ group5_db.group4_db = group4_db
 QUERY_PARAM_FILTER = 'filter'
 QUERY_PARAM_SESSION = 'session'
 QUERY_PARAM_PERSON = 'person'
+QUERY_PARAM_REVERSE = 'reverse'
 
 
 def generate_cache_key():
@@ -36,12 +37,15 @@ def generate_cache_key():
     session = request.args.get(QUERY_PARAM_SESSION)
     sentiment_filter = request.args.get(QUERY_PARAM_FILTER)
     person = request.args.get(QUERY_PARAM_PERSON)
+    reverse = request.args.get(QUERY_PARAM_REVERSE)
     if sentiment_filter is not None:
         cache_key += ':' + sentiment_filter
     if session is not None:
         cache_key += ':' + session
     if person is not None:
         cache_key += ':' + person
+    if reverse is not None:
+        cache_key += ':' + reverse
     return cache_key
 
 
@@ -71,7 +75,8 @@ def get_persons_graph():
 @cache.cached(make_cache_key=generate_cache_key)
 def get_persons_ranked():
     return jsonify(
-        group4_db.get_persons_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
+        group4_db.get_persons_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
+                                     request.args.get(QUERY_PARAM_REVERSE)))
 
 
 @app.route('/persons/sentiment/key_figures')
@@ -97,7 +102,8 @@ def get_faction_graph():
 @cache.cached(make_cache_key=generate_cache_key)
 def get_factions_ranked():
     return jsonify(
-        group5_db.get_factions_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
+        group5_db.get_factions_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
+                                      request.args.get(QUERY_PARAM_REVERSE)))
 
 
 @app.route('/factions/sentiment/key_figures')
