@@ -30,6 +30,7 @@ QUERY_PARAM_FILTER = 'filter'
 QUERY_PARAM_SESSION = 'session'
 QUERY_PARAM_PERSON = 'person'
 QUERY_PARAM_REVERSE = 'reverse'
+QUERY_PARAM_EXCLUDE_APPLAUSE = 'excludeApplause'
 
 
 def generate_cache_key():
@@ -38,6 +39,8 @@ def generate_cache_key():
     sentiment_filter = request.args.get(QUERY_PARAM_FILTER)
     person = request.args.get(QUERY_PARAM_PERSON)
     reverse = request.args.get(QUERY_PARAM_REVERSE)
+    exclude_applause = request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE)
+
     if sentiment_filter is not None:
         cache_key += ':' + sentiment_filter
     if session is not None:
@@ -46,6 +49,9 @@ def generate_cache_key():
         cache_key += ':' + person
     if reverse is not None:
         cache_key += ':' + reverse
+    if exclude_applause is not None:
+        cache_key += ':' + exclude_applause
+
     return cache_key
 
 
@@ -61,14 +67,16 @@ def get_persons():
 @cache.cached(make_cache_key=generate_cache_key)
 def get_messages():
     return jsonify(group4_db.get_messages(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
-                                          request.args.get(QUERY_PARAM_PERSON)))
+                                          request.args.get(QUERY_PARAM_PERSON),
+                                          request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 @app.route('/persons/graph')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_persons_graph():
     return jsonify(group4_db.get_graph(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
-                                       request.args.get(QUERY_PARAM_PERSON)))
+                                       request.args.get(QUERY_PARAM_PERSON),
+                                       request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 @app.route('/persons/ranked')
@@ -76,13 +84,15 @@ def get_persons_graph():
 def get_persons_ranked():
     return jsonify(
         group4_db.get_persons_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
-                                     request.args.get(QUERY_PARAM_REVERSE) == 'true'))
+                                     request.args.get(QUERY_PARAM_REVERSE) == 'true',
+                                     request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 @app.route('/persons/sentiment/key_figures')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_key_figures_persons():
-    return jsonify(group4_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION)))
+    return jsonify(group4_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION),
+                                             exclude_applause=request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 # GROUP 5 endpoints
@@ -95,7 +105,8 @@ def get_factions():
 @app.route('/factions/graph')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_faction_graph():
-    return jsonify(group5_db.get_graph(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION)))
+    return jsonify(group5_db.get_graph(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
+                                       request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 @app.route('/factions/ranked')
@@ -103,19 +114,22 @@ def get_faction_graph():
 def get_factions_ranked():
     return jsonify(
         group5_db.get_factions_ranked(request.args.get(QUERY_PARAM_FILTER), request.args.get(QUERY_PARAM_SESSION),
-                                      request.args.get(QUERY_PARAM_REVERSE) == 'true'))
+                                      request.args.get(QUERY_PARAM_REVERSE) == 'true',
+                                      request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 @app.route('/factions/sentiment/key_figures')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_key_figures_factions():
-    return jsonify(group5_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION)))
+    return jsonify(group5_db.get_key_figures(session_id=request.args.get(QUERY_PARAM_SESSION),
+                                             exclude_applause=request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 @app.route('/factions/proportions')
 @cache.cached(make_cache_key=generate_cache_key)
 def get_faction_proportions():
-    return jsonify(group5_db.get_faction_proportions(request.args.get(QUERY_PARAM_SESSION)))
+    return jsonify(group5_db.get_faction_proportions(request.args.get(QUERY_PARAM_SESSION),
+                                                     request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE) == 'true'))
 
 
 # MIXED endpoints

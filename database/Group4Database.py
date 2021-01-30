@@ -67,7 +67,7 @@ class Group4Database(Database):
                     })
             return arr
 
-    def get_messages(self, sentiment_type="NEUTRAL", session_id=None, person_id=None):
+    def get_messages(self, sentiment_type="NEUTRAL", session_id=None, person_id=None, exclude_applause=False):
         with self.driver.session() as session:
             where = ""
             if sentiment_type == "POSITIVE":
@@ -89,6 +89,13 @@ class Group4Database(Database):
                     where = where + " AND "
                 where = where + "a.speakerId = '{0}' OR b.speakerId = '{0}'".format(person_id)
 
+            if exclude_applause is True:
+                if len(where) == 0:
+                    where = "WHERE "
+                else:
+                    where = where + " AND "
+                where = where + "COALESCE(m.applause, false) <> true"
+
             query = "MATCH (a)-[s:{0}]->(m:{1})-[r:{2}]->(b) " \
                     "MATCH (m)-[d:{4}]->(ses:{5}) " \
                     "{3} " \
@@ -99,10 +106,10 @@ class Group4Database(Database):
             messages = session.run(query)
             return messages.data()
 
-    def get_graph(self, sentiment_type="NEUTRAL", session_id=None, person_id=None):
+    def get_graph(self, sentiment_type="NEUTRAL", session_id=None, person_id=None, exclude_applause=False):
         return {
             'persons': self.get_persons(sentiment_type, session_id, person_id),
-            'messages': aggregate_messages(self.get_messages(sentiment_type, session_id, person_id))
+            'messages': aggregate_messages(self.get_messages(sentiment_type, session_id, person_id, exclude_applause))
         }
 
     def get_factions(self):
@@ -110,20 +117,34 @@ class Group4Database(Database):
             query = "MATCH (f:{}) return f.factionId as factionId, f.name as name".format(NODE_FACTION)
             return session.run(query).data()
 
-    def get_persons_ranked(self, sentiment_type, session_id=None, reverse=None):
+    def get_persons_ranked(self, sentiment_type, session_id=None, reverse=None, exclude_applause=False):
         persons = self.get_persons()
-        messages = self.get_messages(sentiment_type, session_id)
+        messages = self.get_messages(sentiment_type, session_id, exclude_applause)
         ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages), reverse=reverse)
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 
-    def get_key_figures(self, session_id):
+    def get_key_figures(self, session_id=None, exclude_applause=False):
         with self.driver.session() as session:
-            if session_id is None:
-                query = 'MATCH (c:{0})-[:{1}]->(ps:{2}) RETURN c.sentiment AS sentiment' \
-                    .format(NODE_COMMENTARY, REL_SESSION, NODE_SESSION)
-            else:
-                query = 'MATCH (c:{0})-[:{1}]->(ps:{2}) WHERE ps.sessionId = {3} RETURN c.sentiment AS sentiment' \
-                    .format(NODE_COMMENTARY, REL_SESSION, NODE_SESSION, session_id)
+
+            where = ""
+
+            if session_id is not None:
+                if len(where) == 0:
+                    where = "WHERE "
+                else:
+                    where = where + " AND "
+                where = where + "ses.sessionId = {0}".format(session_id)
+
+            if exclude_applause is True:
+                if len(where) == 0:
+                    where = "WHERE "
+                else:
+                    where = where + " AND "
+                where = where + "COALESCE(m.applause, false) <> true"
+
+            query = 'MATCH (c:{0})-[:{1}]->(ps:{2}) {3} RETURN c.sentiment AS sentiment' \
+                    .format(NODE_COMMENTARY, REL_SESSION, NODE_SESSION, where)
+
             data = session.run(query)
             data = data.data()
 
