@@ -2,20 +2,22 @@ import numpy as np
 
 
 def aggregate_messages(messages):
-    result = []
+    existing_entries = {}
     for message in messages:
-        existing_entries = [x for x in result if (x['sender'] == message['sender'] and x['recipient'] == message['recipient'])]
-        if len(existing_entries) > 0:
-            entry = existing_entries[0]
-            count = entry['count'] + 1
-            sentiment = entry['sentiment'] + message['sentiment']
-            entry['count'] = count
-            entry['sentiment'] = sentiment
-            if message['sessionId'] not in entry['sessionIds']:
-                entry['sessionIds'].append(message['sessionId'])
+        message_key = message['sender']+':'+message['recipient']
+        try:
+            existing_entry = existing_entries[message_key]
+            count = existing_entry['count'] + 1
+            sentiment = existing_entry['sentiment'] + message['sentiment']
+            existing_entry['count'] = count
+            existing_entry['sentiment'] = sentiment
 
-        else:
-            result.append({'sender': message['sender'], 'recipient': message['recipient'], 'count': 1, 'sentiment': message['sentiment'], 'sessionIds': [message['sessionId']]})
+        except KeyError:
+            new_entry = {'sender': message['sender'], 'recipient': message['recipient'], 'count': 1,
+                         'sentiment': message['sentiment']}
+            existing_entries[message['sender'] + ':' + message['recipient']] = new_entry
+
+    result = list(existing_entries.values())
 
     for m in result:
         m['sentiment'] = m['sentiment'] / m['count']
