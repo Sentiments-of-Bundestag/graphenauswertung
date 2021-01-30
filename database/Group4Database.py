@@ -119,7 +119,7 @@ class Group4Database(Database):
 
     def get_persons_ranked(self, sentiment_type, session_id=None, reverse=None, exclude_applause=False):
         persons = self.get_persons()
-        messages = self.get_messages(sentiment_type, session_id, exclude_applause)
+        messages = self.get_messages(sentiment_type, session_id, None, exclude_applause)
         ranked = calculate_pagerank_eigenvector(persons, aggregate_messages(messages), reverse=reverse)
         return sorted(ranked, key=lambda x: x['rank'], reverse=True)
 

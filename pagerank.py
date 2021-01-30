@@ -15,7 +15,7 @@ def aggregate_messages(messages):
         except KeyError:
             new_entry = {'sender': message['sender'], 'recipient': message['recipient'], 'count': 1,
                          'sentiment': message['sentiment']}
-            existing_entries[message['sender'] + ':' + message['recipient']] = new_entry
+            existing_entries[message_key] = new_entry
 
     result = list(existing_entries.values())
 
