@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from flask_caching import Cache
+from cache import Cache
 
 from database.Group5Database import setup_group5_db
 from database.Group4Database import setup_group4_db
@@ -9,17 +9,13 @@ from dotenv import load_dotenv
 
 load_dotenv(verbose=True)
 
-config = {
-    "CACHE_TYPE": "simple",
-    "CACHE_DEFAULT_TIMEOUT": 43200  # 12 hours
-}
-
 app = Flask(__name__)
-app.config.from_mapping(config)
-cache = Cache(app)
 
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app_cache = Cache(app, 'simple' if __name__ == '__main__' else 'redis')
+cache = app_cache.cache
+
 CORS(app)
 
 group4_db = setup_group4_db()
@@ -34,25 +30,7 @@ QUERY_PARAM_EXCLUDE_APPLAUSE = 'excludeApplause'
 
 
 def generate_cache_key():
-    cache_key = request.path
-    session = request.args.get(QUERY_PARAM_SESSION)
-    sentiment_filter = request.args.get(QUERY_PARAM_FILTER)
-    person = request.args.get(QUERY_PARAM_PERSON)
-    reverse = request.args.get(QUERY_PARAM_REVERSE)
-    exclude_applause = request.args.get(QUERY_PARAM_EXCLUDE_APPLAUSE)
-
-    if sentiment_filter is not None:
-        cache_key += ':' + sentiment_filter
-    if session is not None:
-        cache_key += ':' + session
-    if person is not None:
-        cache_key += ':' + person
-    if reverse is not None:
-        cache_key += ':' + reverse
-    if exclude_applause is not None:
-        cache_key += ':' + exclude_applause
-
-    return cache_key
+    return app_cache.generate_cache_key(request)
 
 
 # GROUP 4 endpoints
