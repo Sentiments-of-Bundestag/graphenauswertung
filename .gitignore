@@ -4,6 +4,7 @@ data
 logs
 __pycache__
 .env
+
 documentation/chapters/07-Graphauswertung/01-Einleitung.aux
 documentation/chapters/07-Graphauswertung/02-Grundlagen.aux
 documentation/chapters/07-Graphauswertung/03-Anforderungen-Konzept.aux
@@ -13,9 +14,11 @@ documentation/main.aux
 documentation/main.bbl
 documentation/main.bcf
 documentation/main.blg
+documentation/main.glo
 documentation/main.lof
 documentation/main.log
 documentation/main.lol
+documentation/main.lot
 documentation/main.out
 documentation/main.run.xml
 documentation/main.synctex.gz
