@@ -1,7 +1,21 @@
 \section{Einleitung}
 % Was war die Aufgabe?
 
+Der folgende Teilabschnitt der Ausarbeitung beschäftigt sich mit dem sechsten Teilprojekt: die Graphauswertung. Die Projektgruppe, welche an dem Teilprojekt gearbeitet hat, besteht aus Markus Glutting, Miriam Lischke und Marie Bittiehn.
+
 \subsection{Hintergrund}
+Das Teilprojekt ``Graphauswertung'' baut auf den Ergebnissen der Teilprojekte ``Interaktion zwischen Personen'' (Gruppe 4) und ``Interaktion zwischen Fraktionen'' (Gruppe 5) auf. Genauer formuliert, besteht die Aufgabenstellung darin, die Graphen, welche von Gruppe 4 und 5 erstellt werden, auszuwerten und die Ergebnisse der Auswertung der nachfolgenden Gruppe 8 für ihre Benutzeroberfläche zur Verfügung zu stellen.
+
 \subsection{Problemstellung}
+Durch die Auswertung der Graphen sollen die sogenannten ``Stimmungsmacher'' im Bundesstag ermittelt werden. Unter einem Stimmungsmacher ist im vorliegenden Kontext eine Person gemeint, welche viel mit vielen verschiedenen Personen redet und somit eine Stimmung verbreitet. Ob diese verbreitete Stimmung positiv oder negativ ist, ist dabei nicht entscheidend. 
+
+Neben der Ermittlung von Stimmungsmachern sollen ebenfalls simple mathematische Analysen auf den Graphen durchgeführt werden. Dadurch soll eine Gesamtbetrachtung der Sitzungen einer Wahlperiode ermöglicht werden, ebenso wie die Option die Sitzungen in Vergleich zueinander stellen zu können.
+
 \subsection{Zielsetzung}
 % Lernziele darstellen
+
+Um Stimmungsmacher zu ermitteln, soll der PageRank-Algorithmus (siehe Kapitel \ref{sec:7-grundlagen}) verwendet werden. Da Stimmungsmacher gleichbedeutend sind zu Personen, welche viele Nachrichten mit eine positiven und/oder einem negativen Sentiments empfangen bzw. versenden, bietet sich dies an. Mithilfe des PageRank-Algorithmus werden eben diesen Personen bzw. Knoten im Graphen hohe Ränge vergeben, wodurch die identifiziert werden können.
+
+Für die mathematischen Analysen sollen Berechnungen auf den gesamten Graphen durchgeführt und statische Größen wie bspw. der Median oder ein Quartil der Sentiments berechnet werden. 
+
+\textcolor{gray}{TODO: Lernziele darstellen}
