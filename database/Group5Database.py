@@ -9,17 +9,14 @@ REL_COMMENTED = 'COMMENTED'
 
 
 class Group5Database(Database):
-    group4_db = None
-
     def get_factions(self, sentiment_type="NEUTRAL", session_id=None):
         where = self.get_where_clause(sentiment_type, session_id)
         with self.driver.session() as session:
             query = "MATCH (sender:{0})-[r:{1}]-(recipient:{0}) " \
                     "{2} " \
-                    "with sender, collect(distinct r.sessionId) as sessionList, " \
+                    "WITH sender, " \
                     "collect(r) as rlist unwind rlist as r " \
-                    "RETURN DISTINCT sender.name as name, sender.size as size, sender.factionId as factionId, " \
-                    "sessionList as sessionIds" \
+                    "RETURN DISTINCT sender.name as name, sender.size as size, sender.factionId as factionId" \
                 .format(NODE_FACTION, REL_COMMENTED, where)
 
             factions = session.run(query)
@@ -88,8 +85,7 @@ class Group5Database(Database):
         with self.driver.session() as session:
             query = 'MATCH p=(sender:{0})-[r:{1}]->(recipient:{0}) ' \
                     '{2}' \
-                    'with sender, recipient, sum(r.weight) as weightsum, ' \
-                    'collect(distinct r.sessionId) as sessionList, ' \
+                    'WITH sender, recipient, sum(r.weight) as weightsum, ' \
                     'collect(r) as rlist unwind rlist as r ' \
                     'RETURN sender.factionId as sender, recipient.factionId as recipient, ' \
                     'count(r) as count, sum((r.weight/weightsum)*r.polarity) as sentiment' \

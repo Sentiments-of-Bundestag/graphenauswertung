@@ -45,27 +45,11 @@ class Group4Database(Database):
                     "{3}" \
                     "{4}" \
                     "RETURN DISTINCT p.name as name, p.speakerId as speakerId, p.role as role, " \
-                    "f.name as faction, f.factionId as factionId, ses.sessionId as sessionId" \
+                    "f.name as faction, f.factionId as factionId" \
                 .format(NODE_PERSON, REL_MEMBER, NODE_FACTION, session_match, where)
 
             persons = session.run(query)
-            arr = []
-            for person in persons:
-                existing_entries = [x for x in arr if(x['speakerId'] == person['speakerId'])]
-                if len(existing_entries) > 0:
-                    entry = existing_entries[0]
-                    if person['sessionId'] not in entry['sessionIds']:
-                        entry['sessionIds'].append(person['sessionId'])
-                else:
-                    arr.append({
-                        'name': person.data()['name'],
-                        'speakerId': person.data()['speakerId'],
-                        'role': person.data()['role'],
-                        'faction': person.data()['faction'],
-                        'factionId': person.data()['factionId'],
-                        'sessionIds': [person['sessionId']]
-                    })
-            return arr
+            return persons.data()
 
     def get_messages(self, sentiment_type="NEUTRAL", session_id=None, person_id=None, exclude_applause=False):
         with self.driver.session() as session:

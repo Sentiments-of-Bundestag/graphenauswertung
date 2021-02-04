@@ -24,7 +24,6 @@ CORS(app)
 
 group4_db = setup_group4_db()
 group5_db = setup_group5_db()
-group5_db.group4_db = group4_db
 
 QUERY_PARAM_FILTER = 'filter'
 QUERY_PARAM_SESSION = 'session'
