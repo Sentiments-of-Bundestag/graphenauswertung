@@ -14,6 +14,12 @@ Das Netzwerk, welches aus mathematischer Sicht als gerichteter Graph betrachtet 
 
 Wurde der Graph nun als Matrix abgebildet, so kann der PageRank iterativ mithilfe von Matrixmultiplikationen berechnet werden. Dabei wird der PageRank als Vektor der Länge $N$ dargestellt, meist befüllt mit dem Startwert $1/N$ für alle Knoten. Statt einer gesamten Iteration über das Netzwerk und den rekursiven Berechnungen neuer PageRanks für alle Knoten, muss nun nur eine simple Multiplikation der Matrix mit dem Vektor durchgeführt werden. Das Ergebnis der Multiplikation ist wieder ein Vektor und dieser enthält die neuen PageRanks aller Knoten. Nach mehrfacher Multiplikationen der Matrix mit dem PageRank-Vektoren ändern sich die Werte innerhalb des Vektor nicht mehr. Es wurde iterativ ein dominanter Eigenvektor der Matrix berechnet, welcher gleichzeitig den endgültigen PageRanks der Knoten des Netzwerks entspricht \cite{pagerank_eigenvector}. 
 
-Diese iterative Berechnung des PageRanks mithilfe von Matrizenmultiplikationen setzt voraus, dass der zugrundeliegende gerichtete Graph stark zusammenhängend ist \cite{pagerank_eigenvector}. Um dies sicherzustellen sollte zu der Matrix, welche den Graphen abbildet, ein sogenannter Dämpfungsfaktor addiert werden \cite{pagerank_eigenvector}, meist in der Größenordnung von 0,15 bis 0,25. 
-
 \subsection{Entwicklungsframeworks, -Tools und -Konzepte}
+
+Vor der Wahl eines Entwicklungsframeworks galt es zunächst zu entscheiden, welche Programmiersprache verwendet. Innerhalb der Gruppe war die Python-Bibliothek numpy bekannt, welche gut zur performanten Berechnung von Matrizen geeignet ist.
+Daher fiel die Entscheidung auf die Programmiersprache Python. Zur Bereitstellung von HTTP-Schnittstellen für die Benutzeroberfläche wurde das Microframework Flask verwendet.
+Flask zeichnet sich dadurch aus, dass es einen sehr schlanken Kern hat, der nach Bedarf erweitert werden kann. Dadurch unterscheidet es sich stark von anderen Frameworks wie bspw. Django, welches stattdessen eher darauf abzielt, ein vollständiges Framework für Webanwendungen zu sein.
+
+Der Zugriff auf die Neo4j Datenbaken erfolgt mithilfe des Neo4j Python Treibers, welcher im Python Paket neo4j bereitgestellt wird. Es wurde kein Object Graph Mapper (z.B. neomodel) verwendet, da eines der Lernziele darin bestand, die Abfragesprache Cypher kennenzulernen.
+
+
